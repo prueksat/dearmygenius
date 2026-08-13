@@ -3,24 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- SEO Meta Tags -->
     <title>dearmygenius. | บริการรับทำบัญชี ตรวจสอบบัญชี และวางระบบด้วย RPA</title>
-    <meta name="description" content="dearmygenius ให้บริการรับทำบัญชีและภาษี ตรวจสอบบัญชี จดทะเบียนบริษัท ด้วยทีมงานประสบการณ์กว่า 40 ปี ผสานเทคโนโลยี RPA เพื่อความแม่นยำและรวดเร็ว">
-    <meta name="keywords" content="รับทำบัญชี, ตรวจสอบบัญชี, จดทะเบียนบริษัท, dearmygenius, วางระบบบัญชี RPA, สำนักงานบัญชี">
+    <meta name="description" content="dearmygenius ให้บริการรับทำบัญชีและภาษี ตรวจสอบบัญชี จดทะเบียนบริษัท ด้วยทีมงานประสบการณ์กว่า 40 ปี ผสานเทคโนโลยี RPA">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
-            --text-color: #3D3D3D;
-            --bg-color: #EBEBEB;
-            --logo-color: #A499CC;
-            --header-color: #BCB2E2;
+            --text-dark: #3D3D3D;
+            --text-light: #666666;
+            --bg-body: #EBEBEB;
+            --primary: #A499CC;
+            --secondary: #BCB2E2;
             --white: #FFFFFF;
-            --card-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            --gradient: linear-gradient(135deg, #BCB2E2 0%, #A499CC 100%);
+            --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 10px 30px rgba(164, 153, 204, 0.15);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.06);
+            --radius-md: 16px;
+            --radius-lg: 30px;
         }
 
         * {
@@ -32,252 +39,436 @@
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
         }
 
-        /* Header & Nav */
+        /* Glassmorphism Header */
         header {
-            background-color: var(--header-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
             padding: 1rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: var(--card-shadow);
+            box-shadow: var(--shadow-sm);
         }
 
         .logo {
             font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--white);
+            font-weight: 700;
+            color: var(--text-dark);
             text-decoration: none;
-            letter-spacing: 1px;
+            letter-spacing: -0.5px;
         }
 
         .logo span {
-            color: var(--logo-color);
+            color: var(--primary);
         }
 
-        .contact-btn {
-            background-color: var(--white);
-            color: var(--logo-color);
-            padding: 0.5rem 1.2rem;
-            border-radius: 30px;
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 50px;
             text-decoration: none;
             font-weight: 500;
-            transition: 0.3s;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
         }
 
-        .contact-btn:hover {
-            background-color: var(--logo-color);
+        .btn-primary {
+            background: var(--gradient);
+            color: var(--white);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(164, 153, 204, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
             color: var(--white);
         }
 
         /* Hero Section */
         .hero {
+            padding: 6rem 5%;
             text-align: center;
-            padding: 5rem 5%;
-            background-color: var(--white);
+            position: relative;
+            background: var(--white);
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 3rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: var(--secondary);
+            opacity: 0.15;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .tagline {
+            display: inline-block;
+            background: rgba(164, 153, 204, 0.1);
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
         }
 
         .hero h1 {
-            font-size: 2.5rem;
-            color: var(--logo-color);
-            margin-bottom: 1rem;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero p {
             font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto 1.5rem;
-            color: var(--text-color);
+            color: var(--text-light);
+            margin-bottom: 2.5rem;
         }
 
-        #business-status {
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
             font-weight: 500;
+            margin-bottom: 2rem;
+            background: #f8f9fa;
         }
 
-        /* Section Styling */
-        section {
-            padding: 4rem 5%;
-            max-width: 1200px;
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 1100px;
             margin: 0 auto;
+            padding: 0 5%;
         }
 
-        .section-title {
-            text-align: center;
-            color: var(--logo-color);
-            font-size: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        /* RPA & Highlight Section */
-        .highlight-grid {
+        /* Highlights */
+        .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
         }
 
-        .highlight-card {
-            background-color: var(--white);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: var(--card-shadow);
+        .feature-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
             text-align: center;
-            border-top: 4px solid var(--logo-color);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .highlight-card h3 {
-            color: var(--header-color);
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
+        .feature-card:hover {
+            transform: translateY(-10px);
         }
 
-        /* Services Grid */
-        .service-card {
-            background-color: var(--white);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--card-shadow);
-        }
-
-        .service-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--bg-color);
-            padding-bottom: 1rem;
-        }
-
-        .service-number {
-            background-color: var(--header-color);
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient);
             color: var(--white);
-            width: 50px;
-            height: 50px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 600;
-            border-radius: 8px;
-            margin-right: 1rem;
+            font-size: 2rem;
+            margin: 0 auto 1.5rem;
+            box-shadow: var(--shadow-md);
         }
 
-        .service-header h3 {
-            font-size: 1.5rem;
-            color: var(--text-color);
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
         }
 
-        /* Tables */
-        .minimal-table {
+        .feature-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Services Section */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            color: var(--text-dark);
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            margin-bottom: 2.5rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .service-title {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .service-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: transparent;
+            -webkit-text-stroke: 2px var(--secondary);
+            opacity: 0.5;
+        }
+
+        .service-title h3 {
+            font-size: 1.6rem;
+            color: var(--primary);
+        }
+
+        /* Modern Table */
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid #F0F0F0;
+        }
+
+        table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 1rem;
-            background-color: var(--white);
+            background: var(--white);
+            white-space: nowrap;
         }
 
-        .minimal-table th {
-            background-color: var(--header-color);
-            color: var(--white);
-            padding: 1rem;
+        th {
+            background: rgba(188, 178, 226, 0.1);
+            color: var(--text-dark);
+            font-weight: 600;
+            padding: 1.2rem;
             text-align: left;
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        td {
+            padding: 1.2rem;
+            color: var(--text-light);
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        tbody tr {
+            transition: background 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background: rgba(164, 153, 204, 0.03);
+        }
+        
+        td:first-child {
             font-weight: 500;
+            color: var(--text-dark);
         }
 
-        .minimal-table td {
-            padding: 1rem;
-            border-bottom: 1px solid var(--bg-color);
+        .price-col {
+            color: var(--primary);
+            font-weight: 600;
         }
 
-        .minimal-table tr:hover td {
-            background-color: #F8F8F8;
-            transition: background-color 0.3s ease;
+        .note-box {
+            background: rgba(188, 178, 226, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin-top: 2rem;
         }
 
-        .note {
+        .note-box ul {
+            list-style: none;
+        }
+
+        .note-box li {
+            margin-bottom: 0.5rem;
             font-size: 0.9rem;
-            color: #666;
-            margin-top: 1rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .note-box li i {
+            color: var(--primary);
+            margin-top: 4px;
         }
 
         /* Footer */
         footer {
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            text-align: center;
-            padding: 3rem 5%;
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 4rem 5% 2rem;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            margin-top: 4rem;
         }
 
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 2rem;
-            margin-bottom: 2rem;
+        .footer-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
         }
 
-        .contact-item {
+        .footer-brand h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-brand span {
+            color: var(--primary);
+        }
+
+        .contact-list {
+            list-style: none;
+        }
+
+        .contact-list li {
+            margin-bottom: 1rem;
+        }
+
+        .contact-list a {
+            color: #BBBBBB;
+            text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 12px;
+            transition: color 0.3s;
             font-size: 1.1rem;
         }
 
-        .contact-item a {
-            color: var(--bg-color);
-            text-decoration: none;
-            transition: color 0.3s;
+        .contact-list a:hover {
+            color: var(--secondary);
         }
 
-        .contact-item a:hover {
-            color: var(--header-color);
+        .contact-list i {
+            width: 30px;
+            height: 30px;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: var(--secondary);
         }
 
-        .floating-line {
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Floating Actions */
+        .fab-container {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background-color: #00B900;
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(0,185,0,0.3);
             z-index: 1000;
+        }
+
+        .fab-btn {
+            background: #00B900;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 10px 25px rgba(0, 185, 0, 0.4);
+            text-decoration: none;
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        .floating-line:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 16px rgba(0,185,0,0.4);
+        .fab-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 35px rgba(0, 185, 0, 0.5);
         }
 
-        /* CSS Animation Classes for JS */
-        .fade-in {
+        /* Animations */
+        .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
         }
 
-        .fade-in.appear {
+        .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .minimal-table { display: block; overflow-x: auto; white-space: nowrap; }
-            .contact-info { flex-direction: column; gap: 1rem; }
+            .hero h1 { font-size: 2.2rem; }
+            .service-card { padding: 2rem 1.5rem; }
+            .fab-btn { width: 50px; height: 50px; font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -286,161 +477,222 @@
     <!-- Header -->
     <header>
         <a href="#" class="logo">dearmygenius<span>.</span></a>
-        <a href="#services" class="contact-btn">ดูบริการ</a>
+        <a href="https://line.me/ti/p/~@132rhgdv" class="btn btn-primary" target="_blank">
+            <i class="fa-brands fa-line"></i> ติดต่อเรา
+        </a>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero fade-in">
-        <h1>บริการบัญชีและภาษีครบวงจรยุคใหม่</h1>
-        <p>ให้ธุรกิจของคุณเติบโตอย่างมั่นคง ด้วยบริการวางระบบบัญชี ตรวจสอบบัญชี และภาษี บริหารงานโดยทีมงานมืออาชีพที่มีประสบการณ์ยาวนาน พร้อมนำเทคโนโลยีมาช่วยลดขั้นตอนและเพิ่มความแม่นยำ</p>
-        
-        <div id="business-status"></div>
-
-        <a href="https://line.me/ti/p/~@132rhgdv" class="contact-btn" style="background-color: var(--logo-color); color: var(--white); padding: 0.8rem 2rem; font-size: 1.1rem; display: inline-block;" target="_blank">ปรึกษาฟรีวันนี้</a>
+    <section class="hero">
+        <div class="hero-content reveal">
+            <span class="tagline">Professional Accounting Services</span>
+            <h1>ยกระดับงานบัญชีและภาษี<br>ด้วย<span>เทคโนโลยียุคใหม่</span></h1>
+            <p>บริการรับทำบัญชี ตรวจสอบบัญชี และวางระบบด้วยเทคโนโลยี RPA ขับเคลื่อนธุรกิจของคุณให้เติบโตอย่างมั่นคง โดยทีมงานผู้เชี่ยวชาญประสบการณ์กว่า 40 ปี</p>
+            
+            <div class="status-badge" id="status-badge">
+                <div class="status-dot" id="status-dot"></div>
+                <span id="status-text">กำลังตรวจสอบสถานะ...</span>
+            </div>
+            
+            <br>
+            <a href="#services" class="btn btn-outline" style="margin-right: 10px;">ดูแพ็กเกจราคา</a>
+            <a href="https://line.me/ti/p/~@132rhgdv" class="btn btn-primary" target="_blank">ปรึกษาผู้เชี่ยวชาญฟรี</a>
+        </div>
     </section>
 
-    <!-- Highlights -->
-    <section class="fade-in">
-        <div class="highlight-grid">
-            <div class="highlight-card">
+    <div class="container">
+        <!-- Highlights -->
+        <section class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-award"></i>
+                </div>
                 <h3>ประสบการณ์กว่า 40 ปี</h3>
-                <p>ปรึกษาฟรีโดยทีมงานมืออาชีพด้านบัญชีและภาษี ที่พร้อมดูแลธุรกิจของคุณในทุกมิติ</p>
+                <p>ดูแลโดยทีมงานมืออาชีพที่เชี่ยวชาญด้านบัญชีและภาษีโดยเฉพาะ พร้อมให้คำปรึกษาเพื่อหาทางออกที่ดีที่สุดสำหรับธุรกิจคุณ</p>
             </div>
-            <div class="highlight-card">
-                <h3>ขับเคลื่อนด้วย RPA</h3>
-                <p>นำเทคโนโลยี Robotic Process Automation (RPA) มาใช้จัดการข้อมูล ลดข้อผิดพลาด ทำงานอัตโนมัติ แม่นยำและรวดเร็ว</p>
+            <div class="feature-card reveal" style="transition-delay: 0.1s;">
+                <div class="feature-icon">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <h3>นวัตกรรม RPA</h3>
+                <p>นำเทคโนโลยี Robotic Process Automation (RPA) มาใช้จัดการข้อมูล ลดข้อผิดพลาดการทำงานของคน แม่นยำและรวดเร็ว</p>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Services -->
-    <section id="services">
-        <h2 class="section-title fade-in">บริการของเรา</h2>
+        <!-- Services -->
+        <section id="services">
+            <div class="section-header reveal">
+                <h2>บริการและอัตราค่าธรรมเนียม</h2>
+            </div>
 
-        <!-- Service 01 -->
-        <div class="service-card fade-in">
-            <div class="service-header">
-                <div class="service-number">01</div>
-                <h3>อัตราค่าบริการทำบัญชีและภาษี</h3>
-            </div>
-            <p style="margin-bottom: 1rem;">บริการครอบคลุมการจัดทำบัญชีรายเดือน ทะเบียนสินทรัพย์ ยื่นภาษีประจำเดือน (ภงด. 3, 53, 54, ภพ. 30, 36) ยื่นภาษีกลางปี/ปลายปี ออกงบการเงิน และให้คำปรึกษา</p>
-            <table class="minimal-table">
-                <tr>
-                    <th>แพ็กเกจ</th>
-                    <th>รายการ</th>
-                    <th>อัตรา / เดือน</th>
-                </tr>
-                <tr><td>A1</td><td>1-35 รายการ</td><td>1,100 บาท</td></tr>
-                <tr><td>A2</td><td>36-80 รายการ</td><td>2,600 บาท</td></tr>
-                <tr><td>A3</td><td>81-120 รายการ</td><td>4,000 บาท</td></tr>
-                <tr><td>A4</td><td>121-160 รายการ</td><td>5,700 บาท</td></tr>
-                <tr><td>A5</td><td>161-200 รายการ</td><td>7,400 บาท</td></tr>
-                <tr><td>A6</td><td>201-260 รายการ</td><td>9,500 บาท</td></tr>
-                <tr><td>A7</td><td>261-300 รายการ</td><td>12,000 บาท</td></tr>
-            </table>
-            <div class="note">
-                <p>* เหมาต่อปี (ไม่มีภาษีรายเดือน): 9,000 บาท (งบเปล่า 6,500 บาท)</p>
-                <p>* Add-on บริการด้านเงินเดือนและประกันสังคม: +500 บาท (ลูกจ้างไม่เกิน 10 ราย) กรณีเกินคิดเพิ่ม 100 บาท/คน/เดือน</p>
-                <p>* อัตรานี้ไม่รวมค่าส่งเอกสาร ค่าถ่ายเอกสาร และค่าตรวจสอบบัญชี</p>
-            </div>
-        </div>
+            <!-- Service 01 -->
+            <div class="service-card reveal">
+                <div class="service-title">
+                    <div class="service-number">01</div>
+                    <div>
+                        <h3>บริการทำบัญชีและภาษี</h3>
+                        <p style="color: var(--text-light);">บริการครบวงจรทั้งรายเดือนและรายปี</p>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>แพ็กเกจ</th>
+                                <th>จำนวนรายการ</th>
+                                <th>อัตรา / เดือน</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>A1</td><td>1 - 35 รายการ</td><td class="price-col">1,100 ฿</td></tr>
+                            <tr><td>A2</td><td>36 - 80 รายการ</td><td class="price-col">2,600 ฿</td></tr>
+                            <tr><td>A3</td><td>81 - 120 รายการ</td><td class="price-col">4,000 ฿</td></tr>
+                            <tr><td>A4</td><td>121 - 160 รายการ</td><td class="price-col">5,700 ฿</td></tr>
+                            <tr><td>A5</td><td>161 - 200 รายการ</td><td class="price-col">7,400 ฿</td></tr>
+                            <tr><td>A6</td><td>201 - 260 รายการ</td><td class="price-col">9,500 ฿</td></tr>
+                            <tr><td>A7</td><td>261 - 300 รายการ</td><td class="price-col">12,000 ฿</td></tr>
+                        </tbody>
+                    </table>
+                </div>
 
-        <!-- Service 02 -->
-        <div class="service-card fade-in">
-            <div class="service-header">
-                <div class="service-number">02</div>
-                <h3>อัตราค่าบริการตรวจสอบบัญชี</h3>
+                <div class="note-box">
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> <strong>เหมาต่อปี (ไม่มีภาษีรายเดือน):</strong> 9,000 บาท (กรณีงบเปล่า 6,500 บาท)</li>
+                        <li><i class="fa-solid fa-circle-check"></i> <strong>Add-on เงินเดือน/ประกันสังคม:</strong> +500 บาท (ลูกจ้างไม่เกิน 10 ราย) ส่วนเกินคิดเพิ่ม 100 บาท/คน/เดือน</li>
+                        <li><i class="fa-solid fa-circle-info"></i> อัตรานี้ไม่รวมค่าส่งเอกสาร ค่าถ่ายเอกสาร และค่าตรวจสอบบัญชี</li>
+                    </ul>
+                </div>
             </div>
-            <table class="minimal-table">
-                <tr>
-                    <th>รายได้ต่อปี</th>
-                    <th>ราคาต่อปี</th>
-                </tr>
-                <tr><td>งบเปล่า ไม่มีรายได้</td><td>6,000 บาท</td></tr>
-                <tr><td>500,000 - 1,000,000</td><td>8,500 บาท</td></tr>
-                <tr><td>1,000,001 - 5,000,000</td><td>11,500 บาท</td></tr>
-                <tr><td>5,000,001 - 10,000,000</td><td>14,500 บาท</td></tr>
-                <tr><td>10,000,001 - 20,000,000</td><td>23,000 บาท</td></tr>
-                <tr><td>20,000,001 - 50,000,000</td><td>40,000 บาท</td></tr>
-                <tr><td>50,000,001 - 100,000,000</td><td>70,000 บาท</td></tr>
-                <tr><td>เกิน 100,000,000 บาท</td><td>แล้วแต่ตกลง</td></tr>
-            </table>
-        </div>
 
-        <!-- Service 03 -->
-        <div class="service-card fade-in">
-            <div class="service-header">
-                <div class="service-number">03</div>
-                <h3>อัตราค่าบริการอื่นๆ</h3>
+            <!-- Service 02 -->
+            <div class="service-card reveal">
+                <div class="service-title">
+                    <div class="service-number">02</div>
+                    <div>
+                        <h3>บริการตรวจสอบบัญชี</h3>
+                        <p style="color: var(--text-light);">คิดตามเกณฑ์รายได้ต่อปีของกิจการ</p>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>รายได้ต่อปี</th>
+                                <th>ราคาประเมินต่อปี</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>งบเปล่า / ไม่มีรายได้</td><td class="price-col">6,000 ฿</td></tr>
+                            <tr><td>500,000 - 1,000,000 บาท</td><td class="price-col">8,500 ฿</td></tr>
+                            <tr><td>1,000,001 - 5,000,000 บาท</td><td class="price-col">11,500 ฿</td></tr>
+                            <tr><td>5,000,001 - 10,000,000 บาท</td><td class="price-col">14,500 ฿</td></tr>
+                            <tr><td>10,000,001 - 20,000,000 บาท</td><td class="price-col">23,000 ฿</td></tr>
+                            <tr><td>20,000,001 - 50,000,000 บาท</td><td class="price-col">40,000 ฿</td></tr>
+                            <tr><td>50,000,001 - 100,000,000 บาท</td><td class="price-col">70,000 ฿</td></tr>
+                            <tr><td>เกิน 100,000,000 บาท</td><td class="price-col">แล้วแต่ตกลง</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <table class="minimal-table">
-                <tr>
-                    <th>รายการ</th>
-                    <th>อัตราค่าดำเนินการ</th>
-                </tr>
-                <tr><td>จดทะเบียนจัดตั้งห้างหุ้นส่วนฯ</td><td>3,000 บาท</td></tr>
-                <tr><td>จดทะเบียนจัดตั้งบริษัทฯ</td><td>5,000 บาท</td></tr>
-                <tr><td>จดทะเบียนภาษีมูลค่าเพิ่ม</td><td>5,000 บาท</td></tr>
-                <tr><td>ขึ้นทะเบียนประกันสังคม</td><td>4,500 บาท</td></tr>
-            </table>
-            <div class="note">
-                <p>* ค่าดำเนินการดังกล่าว ไม่รวมอัตราค่าธรรมเนียมในการจดทะเบียนของหน่วยงานต่างๆ</p>
+
+            <!-- Service 03 -->
+            <div class="service-card reveal">
+                <div class="service-title">
+                    <div class="service-number">03</div>
+                    <div>
+                        <h3>บริการอื่นๆ</h3>
+                        <p style="color: var(--text-light);">บริการจดทะเบียนและให้คำปรึกษา</p>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>รายการบริการ</th>
+                                <th>อัตราค่าดำเนินการ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>จดทะเบียนจัดตั้งห้างหุ้นส่วนฯ</td><td class="price-col">3,000 ฿</td></tr>
+                            <tr><td>จดทะเบียนจัดตั้งบริษัทฯ</td><td class="price-col">5,000 ฿</td></tr>
+                            <tr><td>จดทะเบียนภาษีมูลค่าเพิ่ม</td><td class="price-col">5,000 ฿</td></tr>
+                            <tr><td>ขึ้นทะเบียนประกันสังคม</td><td class="price-col">4,500 ฿</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="note-box" style="margin-top: 1.5rem; padding: 1rem 1.5rem;">
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin: 0;"><i class="fa-solid fa-asterisk" style="color:var(--primary); margin-right:8px;"></i> ค่าดำเนินการดังกล่าว ไม่รวมอัตราค่าธรรมเนียมในการจดทะเบียนของหน่วยงานรัฐ</p>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
     <!-- Footer -->
     <footer>
-        <h2 style="margin-bottom: 1.5rem; color: var(--header-color);">dearmygenius.</h2>
-        <div class="contact-info">
-            <div class="contact-item">
-                <strong>LINE:</strong> <a href="https://line.me/ti/p/~@132rhgdv" target="_blank">@132rhgdv</a>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h2>dearmygenius<span>.</span></h2>
+                <p style="color: #BBBBBB; margin-top: 1rem;">สำนักงานบัญชีที่ผสานความเชี่ยวชาญเข้ากับเทคโนโลยี เพื่อความก้าวหน้าของธุรกิจคุณ</p>
             </div>
-            <div class="contact-item">
-                <strong>Facebook:</strong> <a href="#" target="_blank">dearmygenius.</a>
-            </div>
-            <div class="contact-item">
-                <strong>Email:</strong> <a href="mailto:contract@dearmygenius.com">contract@dearmygenius.com</a>
+            <div>
+                <h3 style="margin-bottom: 1.5rem; font-weight: 500;">ช่องทางการติดต่อ</h3>
+                <ul class="contact-list">
+                    <li>
+                        <a href="https://line.me/ti/p/~@132rhgdv" target="_blank">
+                            <i class="fa-brands fa-line"></i> LINE: @132rhgdv
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" target="_blank">
+                            <i class="fa-brands fa-facebook-f"></i> Facebook: dearmygenius.
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:contract@dearmygenius.com">
+                            <i class="fa-solid fa-envelope"></i> contract@dearmygenius.com
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
-        <p style="font-size: 0.9rem; color: #999;">&copy; 2026 dearmygenius. All rights reserved.</p>
+        <div class="copyright">
+            &copy; 2026 dearmygenius. All rights reserved. | Designed for Excellence.
+        </div>
     </footer>
 
     <!-- Floating LINE Button -->
-    <a href="https://line.me/ti/p/~@132rhgdv" class="floating-line fade-in" target="_blank">
-        💬 ทักแชท LINE
-    </a>
+    <div class="fab-container reveal">
+        <a href="https://line.me/ti/p/~@132rhgdv" class="fab-btn" target="_blank" title="ติดต่อสอบถามผ่าน LINE">
+            <i class="fa-brands fa-line"></i>
+        </a>
+    </div>
 
-    <!-- JavaScript ใช้งานระบบ Interaction และเช็คเวลาทำการ -->
+    <!-- JavaScript Interactions -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // 1. Scroll Animation (Intersection Observer)
-            const faders = document.querySelectorAll('.fade-in');
-            const appearOptions = {
-                threshold: 0.15,
-                rootMargin: "0px 0px -50px 0px"
-            };
-
-            const appearOnScroll = new IntersectionObserver(function(entries, observer) {
-                entries.forEach(entry => {
-                    if (!entry.isIntersecting) {
-                        return;
-                    } else {
-                        entry.target.classList.add('appear');
-                        observer.unobserve(entry.target);
+            // 1. Reveal Animation on Scroll
+            function reveal() {
+                var reveals = document.querySelectorAll(".reveal");
+                for (var i = 0; i < reveals.length; i++) {
+                    var windowHeight = window.innerHeight;
+                    var elementTop = reveals[i].getBoundingClientRect().top;
+                    var elementVisible = 100;
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveals[i].classList.add("active");
                     }
-                });
-            }, appearOptions);
-
-            faders.forEach(fader => {
-                appearOnScroll.observe(fader);
-            });
+                }
+            }
+            window.addEventListener("scroll", reveal);
+            reveal(); // Trigger once on load
 
             // 2. Real-time Business Hours Checker (Timezone: Asia/Bangkok)
             const checkBusinessStatus = () => {
                 const now = new Date();
                 
-                // คำนวณวันและเวลาปัจจุบันโดยอิงจากไทม์โซนเอเชีย/กรุงเทพ
+                // Formatter for Thai Timezone
                 const formatter = new Intl.DateTimeFormat('en-US', {
                     timeZone: 'Asia/Bangkok',
                     hour: 'numeric',
@@ -452,16 +704,26 @@
                 const hour = parseInt(parts.find(p => p.type === 'hour').value);
                 const weekday = parts.find(p => p.type === 'weekday').value;
                 
-                // สมมติเวลาทำการคือ จันทร์ - ศุกร์ (09:00 - 18:00 น.)
+                // Working hours: Mon-Fri (09:00 - 18:00)
                 const isWorkingDay = (weekday !== 'Sat' && weekday !== 'Sun');
                 const isWorkingHour = (hour >= 9 && hour < 18);
                 
-                const statusElement = document.getElementById('business-status');
+                const statusDot = document.getElementById('status-dot');
+                const statusText = document.getElementById('status-text');
+                const badge = document.getElementById('status-badge');
                 
                 if (isWorkingDay && isWorkingHour) {
-                    statusElement.innerHTML = '<span style="color: #00B900; background-color: #E8F8F5; padding: 4px 12px; border-radius: 20px;">🟢 เปิดให้บริการแล้วในขณะนี้</span>';
+                    statusDot.style.backgroundColor = '#00B900';
+                    statusText.style.color = '#00B900';
+                    statusText.innerText = 'เปิดให้บริการแล้วในขณะนี้';
+                    badge.style.border = '1px solid rgba(0, 185, 0, 0.2)';
+                    badge.style.backgroundColor = '#E8F8F5';
                 } else {
-                    statusElement.innerHTML = '<span style="color: #888; background-color: #F2F2F2; padding: 4px 12px; border-radius: 20px;">🔴 ขณะนี้นอกเวลาทำการ (สามารถฝากข้อความทาง LINE ได้ครับ)</span>';
+                    statusDot.style.backgroundColor = '#FF9800';
+                    statusText.style.color = '#666';
+                    statusText.innerText = 'นอกเวลาทำการ (ฝากข้อความทาง LINE ได้ครับ)';
+                    badge.style.border = '1px solid rgba(255, 152, 0, 0.2)';
+                    badge.style.backgroundColor = '#FFF8E1';
                 }
             };
             
