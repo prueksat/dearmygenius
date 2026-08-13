@@ -89,7 +89,6 @@
 
         .cursor-dot { width: 8px; height: 8px; background-color: var(--primary); border-radius: 50%; position: fixed; transform: translate(-50%, -50%); z-index: 100000; pointer-events: none; transition: width 0.2s, height 0.2s; }
         .cursor-outline { width: 40px; height: 40px; border: 1.5px solid var(--secondary); border-radius: 50%; position: fixed; transform: translate(-50%, -50%); z-index: 100000; pointer-events: none; transition: width 0.3s, height 0.3s, background-color 0.3s; }
-        @media (max-width: 768px) { * { cursor: auto !important; } .cursor-dot, .cursor-outline { display: none; } }
 
         .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: var(--gradient); z-index: 10001; }
 
@@ -222,6 +221,24 @@
 
         .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        /* ========================================================
+           ปรับแต่งระยะห่างสำหรับ Mobile หน้าจอเล็ก โดยเฉพาะ
+           ======================================================== */
+        @media (max-width: 768px) { 
+            * { cursor: auto !important; } 
+            .cursor-dot, .cursor-outline { display: none; }
+            
+            /* ลดช่องว่างด้านบนลงจาก 8rem เหลือ 2.5rem */
+            .hero { padding: 2.5rem 5% 4rem; margin-bottom: 2rem; } 
+            .hero h1 { font-size: 2.2rem; min-height: auto; margin-bottom: 1rem; } 
+            .tagline { margin-bottom: 1rem; }
+            .hero p { margin-bottom: 1.5rem; }
+            
+            .service-card { padding: 2rem 1.5rem; }
+            .fab-btn { width: 50px; height: 50px; font-size: 1.5rem; } 
+            .counter-wrap { font-size: 2rem; }
+        }
     </style>
 </head>
 <body>
