@@ -1,11 +1,24 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>dearmygenius. | บริการรับทำบัญชี ตรวจสอบบัญชี และวางระบบด้วย RPA</title>
-    <meta name="description" content="dearmygenius ให้บริการรับทำบัญชีและภาษี ตรวจสอบบัญชี จดทะเบียนบริษัท ด้วยทีมงานมืออาชีพ ผสานเทคโนโลยี RPA">
+    <title>dearmygenius. | บริการรับทำบัญชี</title>
     
+    <!-- Script จดจำ Theme, ภาษา และบังคับ Scroll กลับไปบนสุดเมื่อ Refresh -->
+    <script>
+        // บังคับกลับไปบนสุดเวลา Refresh
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        const savedLang = localStorage.getItem('lang') || 'th';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.documentElement.lang = savedLang;
+    </script>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,231 +28,200 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* ตัวแปรสี Light Mode */
         :root {
-            --text-dark: #3D3D3D;
-            --text-light: #666666;
-            --bg-body: #EBEBEB;
             --primary: #A499CC;
             --secondary: #BCB2E2;
-            --white: #FFFFFF;
             --gradient: linear-gradient(135deg, #BCB2E2 0%, #A499CC 100%);
+            --bg-body: #EBEBEB;
+            --text-dark: #3D3D3D;
+            --text-light: #666666;
+            --white: #FFFFFF;
+            
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --table-border: #F0F0F0;
+            --table-head: rgba(188, 178, 226, 0.15);
+            --table-hover: rgba(164, 153, 204, 0.05);
+            
             --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.03);
             --shadow-md: 0 10px 30px rgba(164, 153, 204, 0.15);
             --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.06);
-            --radius-md: 16px;
-            --radius-lg: 30px;
+            --radius-md: 16px; --radius-lg: 30px;
         }
 
-        * {
-            margin: 0; padding: 0; box-sizing: border-box;
-            font-family: 'Prompt', sans-serif;
-            scroll-behavior: smooth;
-            cursor: none; /* ซ่อนเมาส์ปกติเพื่อใช้ Custom Cursor */
+        /* ตัวแปรสี Dark Mode */
+        [data-theme="dark"] {
+            --bg-body: #121212;
+            --text-dark: #F5F5F5;
+            --text-light: #AAAAAA;
+            --white: #1E1E1E;
+            
+            --glass-bg: rgba(30, 30, 30, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --table-border: #333333;
+            --table-head: rgba(188, 178, 226, 0.05);
+            --table-hover: rgba(255, 255, 255, 0.03);
+            
+            --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
-        body {
-            background-color: var(--bg-body); color: var(--text-dark);
-            line-height: 1.7; overflow-x: hidden; position: relative;
-        }
+        html:lang(th) .en { display: none !important; }
+        html:lang(en) .th { display: none !important; }
 
-        /* 1. Preloader */
-        #preloader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-body); z-index: 99999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Prompt', sans-serif; scroll-behavior: smooth; cursor: none; }
+        body { background-color: var(--bg-body); color: var(--text-dark); line-height: 1.7; overflow-x: hidden; position: relative; transition: background-color 0.4s ease, color 0.4s ease; }
+
+        .controls { display: flex; align-items: center; gap: 10px; }
+        .icon-btn {
+            background: var(--glass-bg); border: 1px solid var(--glass-border); color: var(--text-dark); width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 600; cursor: none; transition: all 0.3s; backdrop-filter: blur(5px);
         }
+        .icon-btn:hover { background: var(--gradient); color: white; transform: translateY(-3px); }
+
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-body); z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.6s ease, visibility 0.6s ease, background-color 0.4s ease; }
         .loader-logo { font-size: 2.5rem; font-weight: 700; color: var(--text-dark); margin-bottom: 20px; }
         .loader-logo span { color: var(--primary); }
         .loader-line-wrap { width: 150px; height: 3px; background: rgba(164, 153, 204, 0.2); border-radius: 5px; overflow: hidden; }
         .loader-line { width: 0%; height: 100%; background: var(--gradient); animation: load 1.5s ease-in-out forwards; }
         @keyframes load { 0% { width: 0%; } 100% { width: 100%; } }
 
-        /* 2. Custom Cursor */
-        .cursor-dot {
-            width: 8px; height: 8px; background-color: var(--primary);
-            border-radius: 50%; position: fixed; top: 0; left: 0;
-            transform: translate(-50%, -50%); z-index: 100000; pointer-events: none;
-            transition: width 0.2s, height 0.2s;
-        }
-        .cursor-outline {
-            width: 40px; height: 40px; border: 1.5px solid var(--secondary);
-            border-radius: 50%; position: fixed; top: 0; left: 0;
-            transform: translate(-50%, -50%); z-index: 100000; pointer-events: none;
-            transition: width 0.3s, height 0.3s, background-color 0.3s;
-        }
-        /* ยกเลิก Custom Cursor บนมือถือ */
-        @media (max-width: 768px) { * { cursor: auto; } .cursor-dot, .cursor-outline { display: none; } }
+        .cursor-dot { width: 8px; height: 8px; background-color: var(--primary); border-radius: 50%; position: fixed; transform: translate(-50%, -50%); z-index: 100000; pointer-events: none; transition: width 0.2s, height 0.2s; }
+        .cursor-outline { width: 40px; height: 40px; border: 1.5px solid var(--secondary); border-radius: 50%; position: fixed; transform: translate(-50%, -50%); z-index: 100000; pointer-events: none; transition: width 0.3s, height 0.3s, background-color 0.3s; }
+        @media (max-width: 768px) { * { cursor: auto !important; } .cursor-dot, .cursor-outline { display: none; } }
 
-        /* 3. Scroll Progress Bar */
-        .scroll-progress {
-            position: fixed; top: 0; left: 0; width: 0%; height: 4px;
-            background: var(--gradient); z-index: 10001; transition: width 0.1s;
-        }
+        .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: var(--gradient); z-index: 10001; }
 
-        /* Interactive Background Blobs */
-        .bg-blob {
-            position: absolute; border-radius: 50%; filter: blur(80px);
-            z-index: -1; opacity: 0.4; transition: transform 0.5s ease-out;
-        }
+        .bg-blob { position: absolute; border-radius: 50%; filter: blur(80px); z-index: -1; opacity: 0.3; transition: transform 0.5s ease-out; }
         .blob-1 { width: 400px; height: 400px; background: var(--secondary); top: -10%; left: -10%; }
         .blob-2 { width: 300px; height: 300px; background: var(--primary); top: 40%; right: -5%; }
-        .blob-3 { width: 350px; height: 350px; background: #D5D0E6; bottom: 10%; left: 10%; }
 
-        /* Header */
-        header {
-            position: sticky; top: 0; z-index: 1000;
-            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255,255,255,0.4); padding: 1rem 5%;
-            display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm);
-        }
-        .logo { font-size: 1.5rem; font-weight: 700; color: var(--text-dark); text-decoration: none; letter-spacing: -0.5px; }
+        header { position: sticky; top: 0; z-index: 1000; background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-bottom: 1px solid var(--glass-border); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm); transition: background 0.4s, border-color 0.4s; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--text-dark); text-decoration: none; letter-spacing: -0.5px; transition: color 0.4s;}
         .logo span { color: var(--primary); }
 
-        .btn {
-            display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px;
-            border-radius: 50px; text-decoration: none; font-weight: 500;
-            transition: all 0.3s ease; border: none; position: relative; overflow: hidden; cursor: none;
-        }
-        .btn-primary { background: var(--gradient); color: var(--white); box-shadow: var(--shadow-md); z-index: 1; }
-        .btn-primary::after {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
-            transform: skewX(-25deg); z-index: -1; transition: all 0.7s ease;
-        }
+        .header-actions { display: flex; align-items: center; gap: 15px; }
+
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 50px; text-decoration: none; font-weight: 500; transition: all 0.3s ease; border: none; position: relative; overflow: hidden; cursor: none; text-align: center;}
+        .btn-primary { background: var(--gradient); color: #FFF !important; box-shadow: var(--shadow-md); z-index: 1; }
+        .btn-primary::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%); transform: skewX(-25deg); z-index: -1; transition: all 0.7s ease; }
         .btn-primary:hover::after { left: 150%; }
         .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(164, 153, 204, 0.4); }
-        .btn-outline { background: rgba(255,255,255,0.5); color: var(--primary); border: 2px solid var(--primary); backdrop-filter: blur(5px); }
-        .btn-outline:hover { background: var(--primary); color: var(--white); }
+        .btn-outline { background: transparent; color: var(--text-dark); border: 2px solid var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: #FFF; }
 
-        /* Hero Section */
-        .hero {
-            padding: 8rem 5% 6rem; text-align: center; position: relative;
-            background: rgba(255, 255, 255, 0.4); border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-            box-shadow: var(--shadow-lg); margin-bottom: 3rem; backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.6);
-        }
-        .tagline {
-            display: inline-block; background: rgba(164, 153, 204, 0.15); color: var(--primary);
-            padding: 6px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: 600;
-            margin-bottom: 1.5rem; border: 1px solid rgba(164, 153, 204, 0.3);
-        }
-        .hero h1 { font-size: 3.5rem; font-weight: 700; color: var(--text-dark); margin-bottom: 1.5rem; line-height: 1.2; min-height: 100px; }
+        /* แก้ไขโครงสร้าง Hero และปุ่มให้อยู่กึ่งกลางเสมอ */
+        .hero { padding: 8rem 5% 6rem; position: relative; background: var(--glass-bg); border-radius: 0 0 var(--radius-lg) var(--radius-lg); box-shadow: var(--shadow-lg); margin-bottom: 3rem; backdrop-filter: blur(10px); border-bottom: 1px solid var(--glass-border); transition: background 0.4s, border-color 0.4s; display: flex; justify-content: center;}
+        .hero-content { max-width: 800px; width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center;}
+        
+        .tagline { display: inline-block; background: rgba(164, 153, 204, 0.15); color: var(--primary); padding: 6px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; margin-bottom: 1.5rem; border: 1px solid rgba(164, 153, 204, 0.3); }
+        .hero h1 { font-size: 2.8rem; font-weight: 700; color: var(--text-dark); margin-bottom: 1.5rem; line-height: 1.3; min-height: 100px; transition: color 0.4s; width: 100%;}
+        @media (min-width: 768px) { .hero h1 { font-size: 3.5rem; } }
         .type-text { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .cursor { display: inline-block; width: 3px; height: 1em; background-color: var(--primary); vertical-align: text-bottom; animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
-        .hero p { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2.5rem; max-width: 800px; margin-inline: auto; }
+        .hero p { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2.5rem; max-width: 800px; width: 100%; transition: color 0.4s;}
 
-        .status-badge {
-            display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px;
-            border-radius: 50px; font-size: 0.9rem; font-weight: 500; margin-bottom: 2rem;
-            background: rgba(255,255,255,0.8); box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: all 0.3s ease;
-        }
+        .status-badge { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 20px; border-radius: 50px; font-size: 0.9rem; font-weight: 500; margin-bottom: 2rem; background: var(--white); box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: all 0.4s ease; }
         .status-dot { width: 10px; height: 10px; border-radius: 50%; }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 5%; }
+        /* จัดปุ่มให้อยู่กึ่งกลางเสมอเมื่อย่อจอ */
+        .hero-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; width: 100%; }
 
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
-        .feature-card {
-            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.8); padding: 2.5rem; border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg); text-align: center; transform-style: preserve-3d;
-            transform: perspective(1000px); transition: transform 0.1s ease, box-shadow 0.3s ease; position: relative;
-        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 5%; width: 100%;}
+
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
+        .feature-card { background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); padding: 2.5rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); text-align: center; transform-style: preserve-3d; transform: perspective(1000px); transition: transform 0.1s ease, box-shadow 0.3s ease, background 0.4s, border-color 0.4s; position: relative; }
         .feature-card:hover { box-shadow: 0 20px 40px rgba(164, 153, 204, 0.2); z-index: 10; }
         .feature-content { transform: translateZ(30px); }
-        .feature-icon {
-            width: 70px; height: 70px; background: var(--gradient); color: var(--white);
-            border-radius: 20px; display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; margin: 0 auto 1.5rem; box-shadow: var(--shadow-md);
+        
+        /* 🌟 แอนิเมชันไอคอนลอยขึ้นลง (Floating Icon) */
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
+        .feature-icon { width: 70px; height: 70px; background: var(--gradient); color: #FFF; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1.5rem; box-shadow: var(--shadow-md); }
+        .feature-icon i { animation: floatIcon 3s ease-in-out infinite; } /* สั่งให้ไอคอนขยับ */
+
         .counter-wrap { font-size: 2.5rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; }
 
         .section-header { text-align: center; margin-bottom: 3rem; }
-        .section-header h2 { font-size: 2.2rem; color: var(--text-dark); }
+        .section-header h2 { font-size: 2.2rem; color: var(--text-dark); transition: color 0.4s;}
 
-        /* 4. Spotlight Hover Effect Cards */
-        .service-card {
-            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.6); border-radius: var(--radius-lg);
-            padding: 3rem; margin-bottom: 2.5rem; box-shadow: var(--shadow-lg);
-            position: relative; overflow: hidden; transition: transform 0.3s ease;
-        }
-        .service-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(164, 153, 204, 0.15), transparent 40%);
-            z-index: 0; pointer-events: none; opacity: 0; transition: opacity 0.3s;
-        }
+        .service-card { background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 2.5rem; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; transition: transform 0.3s ease, background 0.4s, border-color 0.4s; width: 100%;}
+        @media (min-width: 768px) { .service-card { padding: 3rem; } }
+        
+        .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(164, 153, 204, 0.15), transparent 40%); z-index: 0; pointer-events: none; opacity: 0; transition: opacity 0.3s; }
         .service-card:hover::before { opacity: 1; }
         .service-card:hover { transform: translateY(-5px); }
-        .service-title, .table-responsive, .note-box { position: relative; z-index: 1; } /* ให้อยู่เหนือ Spotlight */
+        .service-title, .table-responsive, .note-box { position: relative; z-index: 1; }
 
         .service-title { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem; }
         .service-number { font-size: 2.5rem; font-weight: 700; color: transparent; -webkit-text-stroke: 2px var(--secondary); opacity: 0.5; }
         .service-title h3 { font-size: 1.6rem; color: var(--primary); }
 
-        .table-responsive { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid #F0F0F0; background: var(--white); cursor: none;}
+        .table-responsive { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--table-border); background: var(--white); transition: background 0.4s, border-color 0.4s; width: 100%;}
         table { width: 100%; border-collapse: collapse; white-space: nowrap; }
-        th { background: rgba(188, 178, 226, 0.15); color: var(--text-dark); font-weight: 600; padding: 1.2rem; text-align: left; border-bottom: 2px solid var(--secondary); }
-        td { padding: 1.2rem; color: var(--text-light); border-bottom: 1px solid #F0F0F0; }
+        th { background: var(--table-head); color: var(--text-dark); font-weight: 600; padding: 1.2rem; text-align: left; border-bottom: 2px solid var(--secondary); transition: color 0.4s, background 0.4s;}
+        td { padding: 1.2rem; color: var(--text-light); border-bottom: 1px solid var(--table-border); transition: color 0.4s, border-color 0.4s;}
         tbody tr { transition: background 0.3s ease, transform 0.2s ease; }
-        tbody tr:hover { background: rgba(164, 153, 204, 0.05); transform: scale(1.01); box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        tbody tr:hover { background: var(--table-hover); transform: scale(1.01); box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
         td:first-child { font-weight: 500; color: var(--text-dark); }
-        .price-col { color: var(--primary); font-weight: 600; }
+        .price-col { color: var(--primary) !important; font-weight: 600; }
 
-        .note-box { background: rgba(188, 178, 226, 0.1); border-left: 4px solid var(--primary); padding: 1.5rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin-top: 2rem; }
+        .note-box { background: var(--table-head); border-left: 4px solid var(--primary); padding: 1.5rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin-top: 2rem; transition: background 0.4s;}
         .note-box ul { list-style: none; }
-        .note-box li { margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-light); display: flex; align-items: flex-start; gap: 10px; }
+        .note-box li { margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-light); display: flex; align-items: flex-start; gap: 10px; transition: color 0.4s;}
         .note-box li i { color: var(--primary); margin-top: 4px; }
 
         /* Footer */
-        footer {
-            background: var(--text-dark); color: var(--white);
-            padding: 4rem 5% 2rem; border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-            margin-top: 4rem; position: relative; overflow: hidden;
-        }
-        .footer-content {
-            max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem; margin-bottom: 3rem; position: relative; z-index: 1;
-        }
+        footer { background: #111111; color: #FFFFFF; padding: 4rem 5% 2rem; border-radius: var(--radius-lg) var(--radius-lg) 0 0; margin-top: 4rem; position: relative; overflow: hidden; }
+        .footer-content { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; margin-bottom: 3rem; position: relative; z-index: 1; }
         .footer-brand h2 { font-size: 2rem; margin-bottom: 1rem; }
         .footer-brand span { color: var(--primary); }
         .contact-list { list-style: none; }
         .contact-list li { margin-bottom: 1rem; }
-        .contact-list a {
-            color: #BBBBBB; text-decoration: none; display: flex; align-items: center; gap: 12px;
-            transition: color 0.3s, transform 0.3s; font-size: 1.1rem; cursor: none;
-        }
+        
+        /* 🌟 แอนิเมชันไอคอนเวลา Hover ใน Footer */
+        .contact-list a { color: #BBBBBB; text-decoration: none; display: flex; align-items: center; gap: 12px; transition: color 0.3s, transform 0.3s; font-size: 1.1rem; cursor: none; }
         .contact-list a:hover { color: var(--secondary); transform: translateX(5px); }
-        .contact-list i {
-            width: 30px; height: 30px; background: rgba(255,255,255,0.1); display: flex; align-items: center;
-            justify-content: center; border-radius: 50%; color: var(--secondary);
+        /* เปลี่ยนดีไซน์ .contact-list i เดิม ให้เป็นแบบนี้ */
+        .contact-list i { 
+            width: 30px; height: 30px; 
+            display: flex; align-items: center; justify-content: center; 
+            border-radius: 50%; color: #FFFFFF; 
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s; 
         }
+        /* โค้ดสีประจำแอปพลิเคชัน (เพิ่มเข้าไปใหม่) */
+        .icon-line { background-color: #00B900; }
+        .icon-fb { background-color: #1877F2; }
+        .icon-mail { background-color: #EA4335; }
+        
+        /* เอฟเฟกต์ Glow ตามสีแอปตอนเอาเมาส์ชี้ (เพิ่มเข้าไปใหม่) */
+        .contact-list a:hover .icon-line { transform: scale(1.2) rotate(10deg); box-shadow: 0 4px 12px rgba(0, 185, 0, 0.4); }
+        .contact-list a:hover .icon-fb { transform: scale(1.2) rotate(10deg); box-shadow: 0 4px 12px rgba(24, 119, 242, 0.4); }
+        .contact-list a:hover .icon-mail { transform: scale(1.2) rotate(10deg); box-shadow: 0 4px 12px rgba(234, 67, 53, 0.4); }
+        .contact-list a:hover i { transform: scale(1.2) rotate(10deg); background: rgba(255,255,255,0.2); } /* เมาส์ชี้แล้วหมุนเด้ง */
+        
         .copyright { text-align: center; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); color: #888; font-size: 0.9rem; position: relative; z-index: 1; }
 
-        /* Floating Actions with Pulse Effect */
+        /* Floating Actions */
         .fab-container { position: fixed; bottom: 30px; right: 30px; z-index: 1000; }
-        .fab-btn {
-            background: #00B900; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex;
-            align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 10px 25px rgba(0, 185, 0, 0.4);
-            text-decoration: none; transition: transform 0.3s; position: relative; cursor: none;
-        }
-        .fab-btn::before, .fab-btn::after {
-            content: ''; position: absolute; border-radius: 50%; border: 2px solid #00B900; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); width: 100%; height: 100%; opacity: 0;
-        }
+        .fab-btn { background: #00B900; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 10px 25px rgba(0, 185, 0, 0.4); text-decoration: none; transition: transform 0.3s; position: relative; cursor: none; }
+        .fab-btn::before, .fab-btn::after { content: ''; position: absolute; border-radius: 50%; border: 2px solid #00B900; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; opacity: 0; }
         .fab-btn::before { animation: pulse 2s linear infinite; }
         .fab-btn::after { animation: pulse 2s linear 1s infinite; }
+        
+        /* 🌟 แอนิเมชันกระเพื่อมเบาๆ ให้ปุ่ม LINE */
+        @keyframes hopIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        .fab-btn i { animation: hopIcon 2s ease-in-out infinite; } 
+        
         @keyframes pulse { 0% { width: 100%; height: 100%; opacity: 0.8; } 100% { width: 200%; height: 200%; opacity: 0; } }
         .fab-btn:hover { transform: scale(1.1); }
 
         .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; } .service-card { padding: 2rem 1.5rem; }
-            .fab-btn { width: 50px; height: 50px; font-size: 1.5rem; } .counter-wrap { font-size: 2rem; }
-        }
     </style>
 </head>
 <body>
@@ -260,59 +242,91 @@
     <!-- Background Blobs -->
     <div class="bg-blob blob-1" id="blob-1"></div>
     <div class="bg-blob blob-2" id="blob-2"></div>
-    <div class="bg-blob blob-3" id="blob-3"></div>
 
     <!-- Header -->
     <header>
-        <a href="#" class="logo">dearmygenius<span>.</span></a>
-        <a href="https://line.me/ti/p/~@132rhgdv" class="btn btn-primary interactive-element" target="_blank">
-            <i class="fa-brands fa-line"></i> ติดต่อเรา
-        </a>
+        <a href="#" class="logo interactive-element">dearmygenius<span>.</span></a>
+        
+        <div class="header-actions">
+            <!-- Theme & Lang Controls -->
+            <div class="controls">
+                <button id="theme-toggle" class="icon-btn interactive-element" title="Toggle Dark/Light Mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button id="lang-toggle" class="icon-btn interactive-element" title="Toggle Language">EN</button>
+            </div>
+            
+            <a href="https://line.me/ti/p/~@132rhgdv" class="btn btn-primary interactive-element" target="_blank" style="display:none;">
+                <i class="fa-brands fa-line"></i> <span class="th">ติดต่อเรา</span><span class="en">Contact Us</span>
+            </a>
+        </div>
     </header>
 
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content reveal">
             <span class="tagline">Professional Accounting Services</span>
-            <h1>ยกระดับงานบัญชีและภาษี<br><span class="type-text" id="typewriter"></span><span class="cursor"></span></h1>
-            <p>บริการรับทำบัญชี ตรวจสอบบัญชี และวางระบบด้วยเทคโนโลยี RPA ขับเคลื่อนธุรกิจของคุณให้เติบโตอย่างมั่นคง โดยทีมงานผู้เชี่ยวชาญประสบการณ์สูง</p>
+            <h1>
+                <span class="th">ยกระดับงานบัญชีและภาษี<br></span>
+                <span class="en">Elevate Your Accounting & Tax<br></span>
+                <span class="type-text" id="typewriter"></span><span class="cursor"></span>
+            </h1>
+            <p>
+                <span class="th">บริการรับทำบัญชี ตรวจสอบบัญชี และวางระบบด้วยเทคโนโลยี RPA ขับเคลื่อนธุรกิจของคุณให้เติบโตอย่างมั่นคง โดยทีมงานผู้เชี่ยวชาญประสบการณ์สูง</span>
+                <span class="en">Bookkeeping, auditing, and system implementation services with RPA technology to drive your business growth steadily by highly experienced professionals.</span>
+            </p>
             
             <div class="status-badge" id="status-badge">
                 <div class="status-dot" id="status-dot"></div>
-                <span id="status-text">กำลังตรวจสอบสถานะ...</span>
+                <span id="status-text">
+                    <span class="th">กำลังตรวจสอบสถานะ...</span>
+                    <span class="en">Checking status...</span>
+                </span>
             </div>
             
-            <br>
-            <a href="#services" class="btn btn-outline interactive-element" style="margin-right: 10px;">ดูแพ็กเกจราคา</a>
-            <a href="https://line.me/ti/p/~@132rhgdv" class="btn btn-primary interactive-element" target="_blank">ปรึกษาผู้เชี่ยวชาญฟรี</a>
+            <!-- ปุ่มกดที่ห่อด้วย hero-buttons เพื่อจัดกึ่งกลาง -->
+            <div class="hero-buttons">
+                <a href="#services" class="btn btn-outline interactive-element">
+                    <span class="th">ดูแพ็กเกจราคา</span><span class="en">View Pricing</span>
+                </a>
+                <a href="https://line.me/ti/p/~@132rhgdv" class="btn btn-primary interactive-element" target="_blank">
+                    <span class="th">ปรึกษาผู้เชี่ยวชาญฟรี</span><span class="en">Free Consultation</span>
+                </a>
+            </div>
         </div>
     </section>
 
     <div class="container">
-        <!-- Highlights with 3D Tilt -->
+        <!-- Highlights -->
         <section class="features-grid">
             <div class="feature-card tilt-card reveal">
                 <div class="feature-content">
                     <div class="feature-icon"><i class="fa-solid fa-award"></i></div>
-                    <div class="counter-wrap"><span class="counter" data-target="40">0</span>+ ปี</div>
-                    <h3>ประสบการณ์มืออาชีพ</h3>
-                    <p>ดูแลโดยทีมงานที่เชี่ยวชาญด้านบัญชีและภาษีโดยเฉพาะ พร้อมให้คำปรึกษาเพื่อหาทางออกที่ดีที่สุดสำหรับธุรกิจคุณ</p>
+                    <div class="counter-wrap"><span class="th">มืออาชีพ</span><span class="en">Professional</span></div>
+                    <h3><span class="th">ประสบการณ์มืออาชีพ</span><span class="en">Professional Experience</span></h3>
+                    <p>
+                        <span class="th">ดูแลโดยทีมงานที่เชี่ยวชาญด้านบัญชีและภาษีโดยเฉพาะ พร้อมให้คำปรึกษาเพื่อหาทางออกที่ดีที่สุดสำหรับธุรกิจคุณ</span>
+                        <span class="en">Managed by specialized accounting and tax teams ready to consult and find the best solutions for your business.</span>
+                    </p>
                 </div>
             </div>
             <div class="feature-card tilt-card reveal" style="transition-delay: 0.1s;">
                 <div class="feature-content">
                     <div class="feature-icon"><i class="fa-solid fa-robot"></i></div>
-                    <div class="counter-wrap">RPA <span class="counter" data-target="100">0</span>%</div>
-                    <h3>นวัตกรรมอัตโนมัติ</h3>
-                    <p>นำเทคโนโลยี Robotic Process Automation (RPA) มาใช้จัดการข้อมูล ลดข้อผิดพลาดการทำงานของคน แม่นยำและรวดเร็ว</p>
+                    <div class="counter-wrap">RPA</div>
+                    <h3><span class="th">นวัตกรรมอัตโนมัติ</span><span class="en">Automated Innovation</span></h3>
+                    <p>
+                        <span class="th">นำเทคโนโลยี Robotic Process Automation (RPA) มาใช้จัดการข้อมูล ลดข้อผิดพลาดการทำงานของคน แม่นยำและรวดเร็ว</span>
+                        <span class="en">Utilizing RPA technology for data management, reducing human errors, ensuring accuracy, and maximizing speed.</span>
+                    </p>
                 </div>
             </div>
         </section>
 
-        <!-- Services (With Spotlight Effect) -->
+        <!-- Services -->
         <section id="services">
             <div class="section-header reveal">
-                <h2>บริการและอัตราค่าธรรมเนียม</h2>
+                <h2><span class="th">บริการและอัตราค่าธรรมเนียม</span><span class="en">Services & Fee Rates</span></h2>
             </div>
 
             <!-- Service 01 -->
@@ -320,31 +334,43 @@
                 <div class="service-title">
                     <div class="service-number">01</div>
                     <div>
-                        <h3>บริการทำบัญชีและภาษี</h3>
-                        <p style="color: var(--text-light);">บริการครบวงจรทั้งรายเดือนและรายปี</p>
+                        <h3><span class="th">บริการทำบัญชีและภาษี</span><span class="en">Accounting & Tax Services</span></h3>
+                        <p style="color: var(--text-light);">
+                            <span class="th">บริการครบวงจรทั้งรายเดือนและรายปี</span><span class="en">Comprehensive monthly and annual services</span>
+                        </p>
                     </div>
                 </div>
                 
                 <div class="table-responsive">
                     <table>
                         <thead>
-                            <tr><th>แพ็กเกจ</th><th>จำนวนรายการ</th><th>อัตรา / เดือน</th></tr>
+                            <tr>
+                                <th><span class="th">แพ็กเกจ</span><span class="en">Package</span></th>
+                                <th><span class="th">จำนวนรายการ</span><span class="en">Transactions</span></th>
+                                <th><span class="th">อัตรา / เดือน</span><span class="en">Rate / Month</span></th>
+                            </tr>
                         </thead>
                         <tbody>
-                            <tr class="interactive-element"><td>A1</td><td>1 - 35 รายการ</td><td class="price-col">1,100 ฿</td></tr>
-                            <tr class="interactive-element"><td>A2</td><td>36 - 80 รายการ</td><td class="price-col">2,600 ฿</td></tr>
-                            <tr class="interactive-element"><td>A3</td><td>81 - 120 รายการ</td><td class="price-col">4,000 ฿</td></tr>
-                            <tr class="interactive-element"><td>A4</td><td>121 - 160 รายการ</td><td class="price-col">5,700 ฿</td></tr>
-                            <tr class="interactive-element"><td>A5</td><td>161 - 200 รายการ</td><td class="price-col">7,400 ฿</td></tr>
-                            <tr class="interactive-element"><td>A6</td><td>201 - 260 รายการ</td><td class="price-col">9,500 ฿</td></tr>
-                            <tr class="interactive-element"><td>A7</td><td>261 - 300 รายการ</td><td class="price-col"><span class="counter" data-target="12000">0</span> ฿</td></tr>
+                            <tr class="interactive-element"><td>A1</td><td>1 - 35 <span class="th">รายการ</span><span class="en">Items</span></td><td class="price-col">1,100 ฿</td></tr>
+                            <tr class="interactive-element"><td>A2</td><td>36 - 80 <span class="th">รายการ</span><span class="en">Items</span></td><td class="price-col">2,600 ฿</td></tr>
+                            <tr class="interactive-element"><td>A3</td><td>81 - 120 <span class="th">รายการ</span><span class="en">Items</span></td><td class="price-col">4,000 ฿</td></tr>
+                            <tr class="interactive-element"><td>A4</td><td>121 - 160 <span class="th">รายการ</span><span class="en">Items</span></td><td class="price-col">5,700 ฿</td></tr>
+                            <tr class="interactive-element"><td>A5</td><td>161 - 200 <span class="th">รายการ</span><span class="en">Items</span></td><td class="price-col">7,400 ฿</td></tr>
+                            <tr class="interactive-element"><td>A6</td><td>201 - 260 <span class="th">รายการ</span><span class="en">Items</span></td><td class="price-col">9,500 ฿</td></tr>
+                            <tr class="interactive-element"><td>A7</td><td>261 - 300 <span class="th">รายการ</span><span class="en">Items</span></td><td class="price-col"><span class="counter" data-target="12000">0</span> ฿</td></tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="note-box">
                     <ul>
-                        <li><i class="fa-solid fa-circle-check"></i> <strong>เหมาต่อปี:</strong> 9,000 บาท (กรณีงบเปล่า 6,500 บาท)</li>
-                        <li><i class="fa-solid fa-circle-check"></i> <strong>Add-on เงินเดือน/ประกันสังคม:</strong> +500 บาท (ลูกจ้างไม่เกิน 10 ราย)</li>
+                        <li><i class="fa-solid fa-circle-check"></i> 
+                            <span class="th"><strong>เหมาต่อปี:</strong> 9,000 บาท (กรณีงบเปล่า 6,500 บาท)</span>
+                            <span class="en"><strong>Annual Package:</strong> 9,000 THB (Blank statement 6,500 THB)</span>
+                        </li>
+                        <li><i class="fa-solid fa-circle-check"></i> 
+                            <span class="th"><strong>Add-on เงินเดือน/ประกันสังคม:</strong> +500 บาท (ลูกจ้างไม่เกิน 10 ราย)</span>
+                            <span class="en"><strong>Payroll/Social Security Add-on:</strong> +500 THB (Max 10 employees)</span>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -354,25 +380,30 @@
                 <div class="service-title">
                     <div class="service-number">02</div>
                     <div>
-                        <h3>บริการตรวจสอบบัญชี</h3>
-                        <p style="color: var(--text-light);">คิดตามเกณฑ์รายได้ต่อปีของกิจการ</p>
+                        <h3><span class="th">บริการตรวจสอบบัญชี</span><span class="en">Audit Services</span></h3>
+                        <p style="color: var(--text-light);">
+                            <span class="th">คิดตามเกณฑ์รายได้ต่อปีของกิจการ</span><span class="en">Based on the company's annual revenue</span>
+                        </p>
                     </div>
                 </div>
                 
                 <div class="table-responsive">
                     <table>
                         <thead>
-                            <tr><th>รายได้ต่อปี</th><th>ราคาประเมินต่อปี</th></tr>
+                            <tr>
+                                <th><span class="th">รายได้ต่อปี</span><span class="en">Annual Revenue</span></th>
+                                <th><span class="th">ราคาประเมินต่อปี</span><span class="en">Estimated Price / Year</span></th>
+                            </tr>
                         </thead>
                         <tbody>
-                            <tr class="interactive-element"><td>งบเปล่า / ไม่มีรายได้</td><td class="price-col">6,000 ฿</td></tr>
-                            <tr class="interactive-element"><td>500,000 - 1,000,000 บาท</td><td class="price-col">8,500 ฿</td></tr>
-                            <tr class="interactive-element"><td>1,000,001 - 5,000,000 บาท</td><td class="price-col">11,500 ฿</td></tr>
-                            <tr class="interactive-element"><td>5,000,001 - 10,000,000 บาท</td><td class="price-col">14,500 ฿</td></tr>
-                            <tr class="interactive-element"><td>10,000,001 - 20,000,000 บาท</td><td class="price-col">23,000 ฿</td></tr>
-                            <tr class="interactive-element"><td>20,000,001 - 50,000,000 บาท</td><td class="price-col">40,000 ฿</td></tr>
-                            <tr class="interactive-element"><td>50,000,001 - 100,000,000 บาท</td><td class="price-col">70,000 ฿</td></tr>
-                            <tr class="interactive-element"><td>เกิน 100,000,000 บาท</td><td class="price-col">แล้วแต่ตกลง</td></tr>
+                            <tr class="interactive-element"><td><span class="th">งบเปล่า / ไม่มีรายได้</span><span class="en">Blank / No Revenue</span></td><td class="price-col">6,000 ฿</td></tr>
+                            <tr class="interactive-element"><td>500,000 - 1,000,000 <span class="th">บาท</span><span class="en">THB</span></td><td class="price-col">8,500 ฿</td></tr>
+                            <tr class="interactive-element"><td>1,000,001 - 5,000,000 <span class="th">บาท</span><span class="en">THB</span></td><td class="price-col">11,500 ฿</td></tr>
+                            <tr class="interactive-element"><td>5,000,001 - 10,000,000 <span class="th">บาท</span><span class="en">THB</span></td><td class="price-col">14,500 ฿</td></tr>
+                            <tr class="interactive-element"><td>10,000,001 - 20,000,000 <span class="th">บาท</span><span class="en">THB</span></td><td class="price-col">23,000 ฿</td></tr>
+                            <tr class="interactive-element"><td>20,000,001 - 50,000,000 <span class="th">บาท</span><span class="en">THB</span></td><td class="price-col">40,000 ฿</td></tr>
+                            <tr class="interactive-element"><td>50,000,001 - 100,000,000 <span class="th">บาท</span><span class="en">THB</span></td><td class="price-col">70,000 ฿</td></tr>
+                            <tr class="interactive-element"><td><span class="th">เกิน 100 ล้านบาท</span><span class="en">Over 100 Million THB</span></td><td class="price-col"><span class="th">แล้วแต่ตกลง</span><span class="en">Negotiable</span></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -383,26 +414,47 @@
                 <div class="service-title">
                     <div class="service-number">03</div>
                     <div>
-                        <h3>บริการอื่นๆ</h3>
-                        <p style="color: var(--text-light);">บริการจดทะเบียนและให้คำปรึกษา</p>
+                        <h3><span class="th">บริการอื่นๆ</span><span class="en">Other Services</span></h3>
+                        <p style="color: var(--text-light);">
+                            <span class="th">บริการจดทะเบียนและให้คำปรึกษา</span><span class="en">Registration and consulting services</span>
+                        </p>
                     </div>
                 </div>
                 
                 <div class="table-responsive">
                     <table>
                         <thead>
-                            <tr><th>รายการบริการ</th><th>อัตราค่าดำเนินการ</th></tr>
+                            <tr>
+                                <th><span class="th">รายการบริการ</span><span class="en">Service Details</span></th>
+                                <th><span class="th">อัตราค่าดำเนินการ</span><span class="en">Operation Fee</span></th>
+                            </tr>
                         </thead>
                         <tbody>
-                            <tr class="interactive-element"><td>จดทะเบียนจัดตั้งห้างหุ้นส่วนฯ</td><td class="price-col">3,000 ฿</td></tr>
-                            <tr class="interactive-element"><td>จดทะเบียนจัดตั้งบริษัทฯ</td><td class="price-col">5,000 ฿</td></tr>
-                            <tr class="interactive-element"><td>จดทะเบียนภาษีมูลค่าเพิ่ม</td><td class="price-col">5,000 ฿</td></tr>
-                            <tr class="interactive-element"><td>ขึ้นทะเบียนประกันสังคม</td><td class="price-col">4,500 ฿</td></tr>
+                            <tr class="interactive-element">
+                                <td><span class="th">จดทะเบียนจัดตั้งห้างหุ้นส่วนฯ</span><span class="en">Partnership Registration</span></td>
+                                <td class="price-col">3,000 ฿</td>
+                            </tr>
+                            <tr class="interactive-element">
+                                <td><span class="th">จดทะเบียนจัดตั้งบริษัทฯ</span><span class="en">Company Registration</span></td>
+                                <td class="price-col">5,000 ฿</td>
+                            </tr>
+                            <tr class="interactive-element">
+                                <td><span class="th">จดทะเบียนภาษีมูลค่าเพิ่ม</span><span class="en">VAT Registration</span></td>
+                                <td class="price-col">5,000 ฿</td>
+                            </tr>
+                            <tr class="interactive-element">
+                                <td><span class="th">ขึ้นทะเบียนประกันสังคม</span><span class="en">Social Security Registration</span></td>
+                                <td class="price-col">4,500 ฿</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="note-box" style="margin-top: 1.5rem; padding: 1rem 1.5rem;">
-                    <p style="font-size: 0.9rem; color: var(--text-light); margin: 0;"><i class="fa-solid fa-asterisk" style="color:var(--primary); margin-right:8px;"></i> ค่าดำเนินการดังกล่าว ไม่รวมอัตราค่าธรรมเนียมในการจดทะเบียนของหน่วยงานรัฐ</p>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin: 0;">
+                        <i class="fa-solid fa-asterisk" style="color:var(--primary); margin-right:8px;"></i> 
+                        <span class="th">ค่าดำเนินการดังกล่าว ไม่รวมอัตราค่าธรรมเนียมในการจดทะเบียนของหน่วยงานรัฐ</span>
+                        <span class="en">The above fees do not include government registration fees.</span>
+                    </p>
                 </div>
             </div>
         </section>
@@ -413,15 +465,19 @@
         <div class="footer-content">
             <div class="footer-brand">
                 <h2>dearmygenius<span>.</span></h2>
-                <p style="color: #BBBBBB; margin-top: 1rem;">สำนักงานบัญชีที่ผสานความเชี่ยวชาญเข้ากับเทคโนโลยี เพื่อความก้าวหน้าของธุรกิจคุณ</p>
+                <p style="color: #BBBBBB; margin-top: 1rem;">
+                    <span class="th">สำนักงานบัญชีที่ผสานความเชี่ยวชาญเข้ากับเทคโนโลยี เพื่อความก้าวหน้าของธุรกิจคุณ</span>
+                    <span class="en">An accounting firm that blends expertise with technology for your business advancement.</span>
+                </p>
             </div>
             <div>
-                <h3 style="margin-bottom: 1.5rem; font-weight: 500;">ช่องทางการติดต่อ</h3>
+                <h3 style="margin-bottom: 1.5rem; font-weight: 500;"><span class="th">ช่องทางการติดต่อ</span><span class="en">Contact Us</span></h3>
                 <ul class="contact-list">
-                    <li><a href="https://line.me/ti/p/~@132rhgdv" class="interactive-element" target="_blank"><i class="fa-brands fa-line"></i> LINE: @132rhgdv</a></li>
-                    <li><a href="#" class="interactive-element" target="_blank"><i class="fa-brands fa-facebook-f"></i> Facebook: dearmygenius.</a></li>
-                    <li><a href="mailto:contract@dearmygenius.com" class="interactive-element"><i class="fa-solid fa-envelope"></i> contract@dearmygenius.com</a></li>
-                </ul>
+    <!-- เพิ่มคลาส icon-line, icon-fb, icon-mail เข้าไปที่แท็ก <i> -->
+    <li><a href="https://line.me/ti/p/~@132rhgdv" class="interactive-element" target="_blank"><i class="fa-brands fa-line icon-line"></i> LINE: @132rhgdv</a></li>
+    <li><a href="#" class="interactive-element" target="_blank"><i class="fa-brands fa-facebook-f icon-fb"></i> Facebook: dearmygenius.</a></li>
+    <li><a href="mailto:contract@dearmygenius.com" class="interactive-element"><i class="fa-solid fa-envelope icon-mail"></i> contract@dearmygenius.com</a></li>
+</ul>
             </div>
         </div>
         <div class="copyright">&copy; 2026 dearmygenius. All rights reserved.</div>
@@ -429,47 +485,75 @@
 
     <!-- Floating LINE Button -->
     <div class="fab-container reveal">
-        <a href="https://line.me/ti/p/~@132rhgdv" class="fab-btn interactive-element" target="_blank" title="ติดต่อสอบถามผ่าน LINE">
+        <a href="https://line.me/ti/p/~@132rhgdv" class="fab-btn interactive-element" target="_blank" title="Contact via LINE">
             <i class="fa-brands fa-line"></i>
         </a>
     </div>
 
-    <!-- All Interaction Scripts -->
+    <!-- JavaScript -->
     <script>
-        // 1. Preloader
-        window.addEventListener('load', () => {
+        // บังคับ Scroll มาด้านบนสุดเมื่อเริ่มโหลด หรือรีเฟรช
+        window.onload = function() {
+            setTimeout(function() {
+                window.scrollTo(0, 0);
+            }, 10);
+        };
+
+        // Setup Theme & Language Toggles initially
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            const themeBtn = document.getElementById('theme-toggle');
+            const langBtn = document.getElementById('lang-toggle');
+            
+            // Set initial icon for theme
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            themeBtn.innerHTML = currentTheme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+            
+            // Set initial text for lang toggle
+            const currentLang = document.documentElement.lang;
+            langBtn.innerText = currentLang === 'th' ? 'EN' : 'TH';
+
+            // Theme Toggle Click Event
+            themeBtn.addEventListener('click', () => {
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                const targetTheme = isDark ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', targetTheme);
+                localStorage.setItem('theme', targetTheme);
+                themeBtn.innerHTML = targetTheme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+            });
+
+            // Language Toggle Click Event
+            langBtn.addEventListener('click', () => {
+                const isTh = document.documentElement.lang === 'th';
+                const targetLang = isTh ? 'en' : 'th';
+                document.documentElement.lang = targetLang;
+                localStorage.setItem('lang', targetLang);
+                langBtn.innerText = targetLang === 'th' ? 'EN' : 'TH';
+            });
+
+            // Preloader
             setTimeout(() => {
                 const preloader = document.getElementById('preloader');
                 preloader.style.opacity = '0';
                 setTimeout(() => { preloader.style.visibility = 'hidden'; }, 600);
-            }, 1800); // โหลด 1.8 วินาทีโชว์โลโก้เท่ๆ
-        });
+            }, 1500);
 
-        document.addEventListener("DOMContentLoaded", function() {
-            
-            // 2. Custom Cursor
+            // Custom Cursor
             const dot = document.getElementById('cursor-dot');
             const outline = document.getElementById('cursor-outline');
             
             window.addEventListener('mousemove', (e) => {
-                const posX = e.clientX;
-                const posY = e.clientY;
+                const posX = e.clientX; const posY = e.clientY;
                 dot.style.left = `${posX}px`; dot.style.top = `${posY}px`;
+                outline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
                 
-                // outline วิ่งตามแบบ delay นิดๆ ให้ดู smooth
-                outline.animate({
-                    left: `${posX}px`, top: `${posY}px`
-                }, { duration: 500, fill: "forwards" });
-                
-                // Interactive Background Blobs Parallax
-                const moveX = (posX - window.innerWidth/2) / 40;
-                const moveY = (posY - window.innerHeight/2) / 40;
+                // Background Parallax
+                const moveX = (posX - window.innerWidth/2) / 40; const moveY = (posY - window.innerHeight/2) / 40;
                 document.getElementById('blob-1').style.transform = `translate(${moveX}px, ${moveY}px)`;
                 document.getElementById('blob-2').style.transform = `translate(${-moveX * 1.5}px, ${-moveY * 1.5}px)`;
             });
 
-            // เอฟเฟกต์เมาส์ขยายเมื่อชี้โดนปุ่มหรือลิงก์
-            const interactives = document.querySelectorAll('.interactive-element, a');
+            const interactives = document.querySelectorAll('.interactive-element, a, button');
             interactives.forEach(el => {
                 el.addEventListener('mouseenter', () => {
                     outline.style.width = '60px'; outline.style.height = '60px';
@@ -483,28 +567,23 @@
                 });
             });
 
-            // 3. Scroll Progress Bar
+            // Scroll Progress
             window.addEventListener('scroll', () => {
                 const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
                 const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrolled = (winScroll / height) * 100;
-                document.getElementById('scroll-progress').style.width = scrolled + "%";
+                document.getElementById('scroll-progress').style.width = ((winScroll / height) * 100) + "%";
             });
 
-            // 4. Spotlight Effect for Service Cards
-            const spotlightCards = document.querySelectorAll('.spotlight-card');
-            spotlightCards.forEach(card => {
+            // Spotlight Effect
+            document.querySelectorAll('.spotlight-card').forEach(card => {
                 card.addEventListener('mousemove', (e) => {
                     const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    card.style.setProperty('--mouse-x', `${x}px`);
-                    card.style.setProperty('--mouse-y', `${y}px`);
+                    card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                    card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
                 });
             });
-
-            // --- เอฟเฟกต์เดิม (Reveal, Typewriter, Tilt, Counter, Business Status) ---
             
+            // Reveal on Scroll
             function reveal() {
                 var reveals = document.querySelectorAll(".reveal");
                 for (var i = 0; i < reveals.length; i++) {
@@ -515,27 +594,32 @@
             }
             window.addEventListener("scroll", reveal); reveal(); 
 
-            const texts = ["ด้วยเทคโนโลยียุคใหม่", "รวดเร็วและแม่นยำด้วย RPA", "เชี่ยวชาญด้านบัญชีและภาษี"];
-            let count = 0; let index = 0; let currentText = ''; let letter = ''; let isDeleting = false;
+            // Typewriter Multi-language
+            const textsTH = ["ด้วยเทคโนโลยียุคใหม่", "รวดเร็วและแม่นยำด้วย RPA", "เชี่ยวชาญด้านบัญชีและภาษี"];
+            const textsEN = ["with Modern Technology", "Fast & Accurate with RPA", "Accounting & Tax Experts"];
+            let count = 0; let index = 0; let isDeleting = false;
+            
             function type() {
-                if (count === texts.length) { count = 0; }
-                currentText = texts[count];
-                letter = isDeleting ? currentText.slice(0, --index) : currentText.slice(0, ++index);
+                const currentArray = document.documentElement.lang === 'en' ? textsEN : textsTH;
+                if (count >= currentArray.length) count = 0;
+                let currentText = currentArray[count];
+                
+                let letter = isDeleting ? currentText.slice(0, --index) : currentText.slice(0, ++index);
                 document.getElementById('typewriter').textContent = letter;
-                let typeSpeed = isDeleting ? 50 : 100;
-                if (!isDeleting && letter.length === currentText.length) { typeSpeed = 2000; isDeleting = true; } 
+                
+                let typeSpeed = isDeleting ? 40 : 80;
+                if (!isDeleting && letter.length === currentText.length) { typeSpeed = 2500; isDeleting = true; } 
                 else if (isDeleting && letter.length === 0) { isDeleting = false; count++; typeSpeed = 500; }
                 setTimeout(type, typeSpeed);
             }
             type();
 
-            const tiltCards = document.querySelectorAll('.tilt-card');
-            tiltCards.forEach(card => {
+            // 3D Tilt
+            document.querySelectorAll('.tilt-card').forEach(card => {
                 card.addEventListener('mousemove', e => {
                     const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left; const y = e.clientY - rect.top;
-                    const rotateX = ((y - rect.height/2) / (rect.height/2)) * -10;
-                    const rotateY = ((x - rect.width/2) / (rect.width/2)) * 10;
+                    const rotateX = ((e.clientY - rect.top - rect.height/2) / (rect.height/2)) * -10;
+                    const rotateY = ((e.clientX - rect.left - rect.width/2) / (rect.width/2)) * 10;
                     card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
                 });
                 card.addEventListener('mouseleave', () => {
@@ -545,15 +629,14 @@
                 card.addEventListener('mouseenter', () => card.style.transition = 'none' );
             });
 
-            const counters = document.querySelectorAll('.counter');
+            // Counters
             const counterObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const target = +entry.target.getAttribute('data-target');
-                        const speed = 200;
                         const updateCount = () => {
                             const count = +entry.target.innerText.replace(/,/g, '');
-                            const inc = target / speed;
+                            const inc = target / 150;
                             if (count < target) { entry.target.innerText = Math.ceil(count + inc).toLocaleString(); setTimeout(updateCount, 15); } 
                             else { entry.target.innerText = target.toLocaleString(); }
                         };
@@ -561,28 +644,27 @@
                     }
                 });
             }, { threshold: 0.5 });
-            counters.forEach(counter => counterObserver.observe(counter));
+            document.querySelectorAll('.counter').forEach(c => counterObserver.observe(c));
 
+            // Business Hours Status Checker
             const checkBusinessStatus = () => {
                 const now = new Date();
-                const formatter = new Intl.DateTimeFormat('en-US', {
-                    timeZone: 'Asia/Bangkok', hour: 'numeric', hourCycle: 'h23', weekday: 'short'
-                });
+                const formatter = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Bangkok', hour: 'numeric', hourCycle: 'h23', weekday: 'short' });
                 const parts = formatter.formatToParts(now);
                 const hour = parseInt(parts.find(p => p.type === 'hour').value);
                 const weekday = parts.find(p => p.type === 'weekday').value;
                 const isWorkingDay = (weekday !== 'Sat' && weekday !== 'Sun');
                 const isWorkingHour = (hour >= 9 && hour < 18);
+                
                 const statusDot = document.getElementById('status-dot');
                 const statusText = document.getElementById('status-text');
-                const badge = document.getElementById('status-badge');
                 
                 if (isWorkingDay && isWorkingHour) {
-                    statusDot.style.backgroundColor = '#00B900'; statusText.style.color = '#00B900';
-                    statusText.innerText = 'เปิดให้บริการแล้วในขณะนี้'; badge.style.border = '1px solid rgba(0, 185, 0, 0.2)';
+                    statusDot.style.backgroundColor = '#00B900';
+                    statusText.innerHTML = '<span class="th" style="color:#00B900;">เปิดให้บริการแล้วในขณะนี้</span><span class="en" style="color:#00B900;">Currently Open</span>';
                 } else {
-                    statusDot.style.backgroundColor = '#FF9800'; statusText.style.color = '#666';
-                    statusText.innerText = 'นอกเวลาทำการ (ฝากข้อความทาง LINE ได้ครับ)'; badge.style.border = '1px solid rgba(255, 152, 0, 0.2)';
+                    statusDot.style.backgroundColor = '#FF9800';
+                    statusText.innerHTML = '<span class="th" style="color:var(--text-light);">นอกเวลาทำการ (ฝากข้อความทาง LINE ได้ครับ)</span><span class="en" style="color:var(--text-light);">Closed (Please leave a message on LINE)</span>';
                 }
             };
             checkBusinessStatus();
