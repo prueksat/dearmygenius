@@ -7,7 +7,6 @@
     
     <!-- Script จดจำ Theme, ภาษา และบังคับ Scroll กลับไปบนสุดเมื่อ Refresh -->
     <script>
-        // บังคับกลับไปบนสุดเวลา Refresh
         if ('scrollRestoration' in history) {
             history.scrollRestoration = 'manual';
         }
@@ -110,7 +109,6 @@
         .btn-outline { background: transparent; color: var(--text-dark); border: 2px solid var(--primary); }
         .btn-outline:hover { background: var(--primary); color: #FFF; }
 
-        /* แก้ไขโครงสร้าง Hero และปุ่มให้อยู่กึ่งกลางเสมอ */
         .hero { padding: 8rem 5% 6rem; position: relative; background: var(--glass-bg); border-radius: 0 0 var(--radius-lg) var(--radius-lg); box-shadow: var(--shadow-lg); margin-bottom: 3rem; backdrop-filter: blur(10px); border-bottom: 1px solid var(--glass-border); transition: background 0.4s, border-color 0.4s; display: flex; justify-content: center;}
         .hero-content { max-width: 800px; width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center;}
         
@@ -125,7 +123,6 @@
         .status-badge { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 20px; border-radius: 50px; font-size: 0.9rem; font-weight: 500; margin-bottom: 2rem; background: var(--white); box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: all 0.4s ease; }
         .status-dot { width: 10px; height: 10px; border-radius: 50%; }
 
-        /* จัดปุ่มให้อยู่กึ่งกลางเสมอเมื่อย่อจอ */
         .hero-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; width: 100%; }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 0 5%; width: 100%;}
@@ -135,13 +132,9 @@
         .feature-card:hover { box-shadow: 0 20px 40px rgba(164, 153, 204, 0.2); z-index: 10; }
         .feature-content { transform: translateZ(30px); }
         
-        /* 🌟 แอนิเมชันไอคอนลอยขึ้นลง (Floating Icon) */
-        @keyframes floatIcon {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
+        @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
         .feature-icon { width: 70px; height: 70px; background: var(--gradient); color: #FFF; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1.5rem; box-shadow: var(--shadow-md); }
-        .feature-icon i { animation: floatIcon 3s ease-in-out infinite; } /* สั่งให้ไอคอนขยับ */
+        .feature-icon i { animation: floatIcon 3s ease-in-out infinite; }
 
         .counter-wrap { font-size: 2.5rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; }
 
@@ -160,6 +153,8 @@
         .service-number { font-size: 2.5rem; font-weight: 700; color: transparent; -webkit-text-stroke: 2px var(--secondary); opacity: 0.5; }
         .service-title h3 { font-size: 1.6rem; color: var(--primary); }
 
+        /* การตั้งค่าตารางปกติ (จอคอม) */
+        .mobile-label { display: none; }
         .table-responsive { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--table-border); background: var(--white); transition: background 0.4s, border-color 0.4s; width: 100%;}
         table { width: 100%; border-collapse: collapse; white-space: nowrap; }
         th { background: var(--table-head); color: var(--text-dark); font-weight: 600; padding: 1.2rem; text-align: left; border-bottom: 2px solid var(--secondary); transition: color 0.4s, background 0.4s;}
@@ -174,7 +169,6 @@
         .note-box li { margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-light); display: flex; align-items: flex-start; gap: 10px; transition: color 0.4s;}
         .note-box li i { color: var(--primary); margin-top: 4px; }
 
-        /* Footer */
         footer { background: #111111; color: #FFFFFF; padding: 4rem 5% 2rem; border-radius: var(--radius-lg) var(--radius-lg) 0 0; margin-top: 4rem; position: relative; overflow: hidden; }
         .footer-content { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; margin-bottom: 3rem; position: relative; z-index: 1; }
         .footer-brand h2 { font-size: 2rem; margin-bottom: 1rem; }
@@ -182,40 +176,25 @@
         .contact-list { list-style: none; }
         .contact-list li { margin-bottom: 1rem; }
         
-        /* 🌟 แอนิเมชันไอคอนเวลา Hover ใน Footer */
         .contact-list a { color: #BBBBBB; text-decoration: none; display: flex; align-items: center; gap: 12px; transition: color 0.3s, transform 0.3s; font-size: 1.1rem; cursor: none; }
         .contact-list a:hover { color: var(--secondary); transform: translateX(5px); }
-        /* เปลี่ยนดีไซน์ .contact-list i เดิม ให้เป็นแบบนี้ */
-        .contact-list i { 
-            width: 30px; height: 30px; 
-            display: flex; align-items: center; justify-content: center; 
-            border-radius: 50%; color: #FFFFFF; 
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s; 
-        }
-        /* โค้ดสีประจำแอปพลิเคชัน (เพิ่มเข้าไปใหม่) */
-        .icon-line { background-color: #00B900; }
-        .icon-fb { background-color: #1877F2; }
-        .icon-mail { background-color: #EA4335; }
-        
-        /* เอฟเฟกต์ Glow ตามสีแอปตอนเอาเมาส์ชี้ (เพิ่มเข้าไปใหม่) */
+        .contact-list i { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: #FFFFFF; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s; }
+        .icon-line { background-color: #00B900; } .icon-fb { background-color: #1877F2; } .icon-mail { background-color: #EA4335; }
         .contact-list a:hover .icon-line { transform: scale(1.2) rotate(10deg); box-shadow: 0 4px 12px rgba(0, 185, 0, 0.4); }
         .contact-list a:hover .icon-fb { transform: scale(1.2) rotate(10deg); box-shadow: 0 4px 12px rgba(24, 119, 242, 0.4); }
         .contact-list a:hover .icon-mail { transform: scale(1.2) rotate(10deg); box-shadow: 0 4px 12px rgba(234, 67, 53, 0.4); }
-        .contact-list a:hover i { transform: scale(1.2) rotate(10deg); background: rgba(255,255,255,0.2); } /* เมาส์ชี้แล้วหมุนเด้ง */
+        .contact-list a:hover i { transform: scale(1.2) rotate(10deg); background: rgba(255,255,255,0.2); } 
         
         .copyright { text-align: center; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); color: #888; font-size: 0.9rem; position: relative; z-index: 1; }
 
-        /* Floating Actions */
         .fab-container { position: fixed; bottom: 30px; right: 30px; z-index: 1000; }
         .fab-btn { background: #00B900; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 10px 25px rgba(0, 185, 0, 0.4); text-decoration: none; transition: transform 0.3s; position: relative; cursor: none; }
         .fab-btn::before, .fab-btn::after { content: ''; position: absolute; border-radius: 50%; border: 2px solid #00B900; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; opacity: 0; }
         .fab-btn::before { animation: pulse 2s linear infinite; }
         .fab-btn::after { animation: pulse 2s linear 1s infinite; }
         
-        /* 🌟 แอนิเมชันกระเพื่อมเบาๆ ให้ปุ่ม LINE */
         @keyframes hopIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
         .fab-btn i { animation: hopIcon 2s ease-in-out infinite; } 
-        
         @keyframes pulse { 0% { width: 100%; height: 100%; opacity: 0.8; } 100% { width: 200%; height: 200%; opacity: 0; } }
         .fab-btn:hover { transform: scale(1.1); }
 
@@ -223,21 +202,55 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
         
         /* ========================================================
-           ปรับแต่งระยะห่างสำหรับ Mobile หน้าจอเล็ก โดยเฉพาะ
+           Mobile Responsive (รองรับมือถือแบบ 100%)
            ======================================================== */
         @media (max-width: 768px) { 
             * { cursor: auto !important; } 
             .cursor-dot, .cursor-outline { display: none; }
             
-            /* ลดช่องว่างด้านบนลงจาก 8rem เหลือ 2.5rem */
             .hero { padding: 2.5rem 5% 4rem; margin-bottom: 2rem; } 
             .hero h1 { font-size: 2.2rem; min-height: auto; margin-bottom: 1rem; } 
             .tagline { margin-bottom: 1rem; }
             .hero p { margin-bottom: 1.5rem; }
-            
             .service-card { padding: 2rem 1.5rem; }
             .fab-btn { width: 50px; height: 50px; font-size: 1.5rem; } 
             .counter-wrap { font-size: 2rem; }
+
+            /* แปลง Table ให้เป็น Card View ในมือถือ ไม่ต้องสไลด์ */
+            .table-responsive { border: none !important; background: transparent !important; box-shadow: none; overflow: visible;}
+            table, thead, tbody, th, td, tr { display: block; width: 100%; }
+            thead { display: none; } /* ซ่อนหัวตาราง */
+            
+            tbody tr { 
+                margin-bottom: 1rem; 
+                border: 1px solid var(--table-border); 
+                border-radius: var(--radius-md); 
+                background: var(--glass-bg);
+                box-shadow: var(--shadow-sm);
+                overflow: hidden;
+            }
+            tbody tr:hover { transform: none; } /* ปิดเอฟเฟกต์เด้งบนมือถือ */
+            
+            td { 
+                display: flex; 
+                justify-content: space-between; 
+                align-items: center; 
+                padding: 1rem !important; 
+                border-bottom: 1px solid var(--table-border); 
+                text-align: right; 
+                white-space: normal !important;
+                gap: 15px;
+            }
+            td:last-child { border-bottom: none; }
+            td:first-child { background: var(--table-head); }
+            
+            .mobile-label { 
+                display: block; 
+                font-weight: 600; 
+                color: var(--text-dark); 
+                text-align: left; 
+                font-size: 0.95rem;
+            }
         }
     </style>
 </head>
@@ -368,13 +381,41 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="interactive-element"><td>A1</td><td>1 - 35 <span class="th">รายการ</span><span class="en">Items</span></td><td class="price-col">1,100 ฿</td></tr>
-                            <tr class="interactive-element"><td>A2</td><td>36 - 80 <span class="th">รายการ</span><span class="en">Items</span></td><td class="price-col">2,600 ฿</td></tr>
-                            <tr class="interactive-element"><td>A3</td><td>81 - 120 <span class="th">รายการ</span><span class="en">Items</span></td><td class="price-col">4,000 ฿</td></tr>
-                            <tr class="interactive-element"><td>A4</td><td>121 - 160 <span class="th">รายการ</span><span class="en">Items</span></td><td class="price-col">5,700 ฿</td></tr>
-                            <tr class="interactive-element"><td>A5</td><td>161 - 200 <span class="th">รายการ</span><span class="en">Items</span></td><td class="price-col">7,400 ฿</td></tr>
-                            <tr class="interactive-element"><td>A6</td><td>201 - 260 <span class="th">รายการ</span><span class="en">Items</span></td><td class="price-col">9,500 ฿</td></tr>
-                            <tr class="interactive-element"><td>A7</td><td>261 - 300 <span class="th">รายการ</span><span class="en">Items</span></td><td class="price-col"><span class="counter" data-target="12000">0</span> ฿</td></tr>
+                            <tr class="interactive-element">
+                                <td><span class="mobile-label"><span class="th">แพ็กเกจ</span><span class="en">Package</span></span>A1</td>
+                                <td><span class="mobile-label"><span class="th">จำนวนรายการ</span><span class="en">Transactions</span></span>1 - 35 <span class="th">รายการ</span><span class="en">Items</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">อัตรา / เดือน</span><span class="en">Rate / Month</span></span>1,100 ฿</td>
+                            </tr>
+                            <tr class="interactive-element">
+                                <td><span class="mobile-label"><span class="th">แพ็กเกจ</span><span class="en">Package</span></span>A2</td>
+                                <td><span class="mobile-label"><span class="th">จำนวนรายการ</span><span class="en">Transactions</span></span>36 - 80 <span class="th">รายการ</span><span class="en">Items</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">อัตรา / เดือน</span><span class="en">Rate / Month</span></span>2,600 ฿</td>
+                            </tr>
+                            <tr class="interactive-element">
+                                <td><span class="mobile-label"><span class="th">แพ็กเกจ</span><span class="en">Package</span></span>A3</td>
+                                <td><span class="mobile-label"><span class="th">จำนวนรายการ</span><span class="en">Transactions</span></span>81 - 120 <span class="th">รายการ</span><span class="en">Items</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">อัตรา / เดือน</span><span class="en">Rate / Month</span></span>4,000 ฿</td>
+                            </tr>
+                            <tr class="interactive-element">
+                                <td><span class="mobile-label"><span class="th">แพ็กเกจ</span><span class="en">Package</span></span>A4</td>
+                                <td><span class="mobile-label"><span class="th">จำนวนรายการ</span><span class="en">Transactions</span></span>121 - 160 <span class="th">รายการ</span><span class="en">Items</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">อัตรา / เดือน</span><span class="en">Rate / Month</span></span>5,700 ฿</td>
+                            </tr>
+                            <tr class="interactive-element">
+                                <td><span class="mobile-label"><span class="th">แพ็กเกจ</span><span class="en">Package</span></span>A5</td>
+                                <td><span class="mobile-label"><span class="th">จำนวนรายการ</span><span class="en">Transactions</span></span>161 - 200 <span class="th">รายการ</span><span class="en">Items</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">อัตรา / เดือน</span><span class="en">Rate / Month</span></span>7,400 ฿</td>
+                            </tr>
+                            <tr class="interactive-element">
+                                <td><span class="mobile-label"><span class="th">แพ็กเกจ</span><span class="en">Package</span></span>A6</td>
+                                <td><span class="mobile-label"><span class="th">จำนวนรายการ</span><span class="en">Transactions</span></span>201 - 260 <span class="th">รายการ</span><span class="en">Items</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">อัตรา / เดือน</span><span class="en">Rate / Month</span></span>9,500 ฿</td>
+                            </tr>
+                            <tr class="interactive-element">
+                                <td><span class="mobile-label"><span class="th">แพ็กเกจ</span><span class="en">Package</span></span>A7</td>
+                                <td><span class="mobile-label"><span class="th">จำนวนรายการ</span><span class="en">Transactions</span></span>261 - 300 <span class="th">รายการ</span><span class="en">Items</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">อัตรา / เดือน</span><span class="en">Rate / Month</span></span><span class="counter" data-target="12000">0</span> ฿</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -413,14 +454,38 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="interactive-element"><td><span class="th">งบเปล่า / ไม่มีรายได้</span><span class="en">Blank / No Revenue</span></td><td class="price-col">6,000 ฿</td></tr>
-                            <tr class="interactive-element"><td>500,000 - 1,000,000 <span class="th">บาท</span><span class="en">THB</span></td><td class="price-col">8,500 ฿</td></tr>
-                            <tr class="interactive-element"><td>1,000,001 - 5,000,000 <span class="th">บาท</span><span class="en">THB</span></td><td class="price-col">11,500 ฿</td></tr>
-                            <tr class="interactive-element"><td>5,000,001 - 10,000,000 <span class="th">บาท</span><span class="en">THB</span></td><td class="price-col">14,500 ฿</td></tr>
-                            <tr class="interactive-element"><td>10,000,001 - 20,000,000 <span class="th">บาท</span><span class="en">THB</span></td><td class="price-col">23,000 ฿</td></tr>
-                            <tr class="interactive-element"><td>20,000,001 - 50,000,000 <span class="th">บาท</span><span class="en">THB</span></td><td class="price-col">40,000 ฿</td></tr>
-                            <tr class="interactive-element"><td>50,000,001 - 100,000,000 <span class="th">บาท</span><span class="en">THB</span></td><td class="price-col">70,000 ฿</td></tr>
-                            <tr class="interactive-element"><td><span class="th">เกิน 100 ล้านบาท</span><span class="en">Over 100 Million THB</span></td><td class="price-col"><span class="th">แล้วแต่ตกลง</span><span class="en">Negotiable</span></td></tr>
+                            <tr class="interactive-element">
+                                <td><span class="mobile-label"><span class="th">รายได้ต่อปี</span><span class="en">Annual Revenue</span></span><span class="th">งบเปล่า / ไม่มีรายได้</span><span class="en">Blank / No Revenue</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">ราคาประเมิน</span><span class="en">Est. Price</span></span>6,000 ฿</td>
+                            </tr>
+                            <tr class="interactive-element">
+                                <td><span class="mobile-label"><span class="th">รายได้ต่อปี</span><span class="en">Annual Revenue</span></span>500,000 - 1,000,000 <span class="th">บาท</span><span class="en">THB</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">ราคาประเมิน</span><span class="en">Est. Price</span></span>8,500 ฿</td>
+                            </tr>
+                            <tr class="interactive-element">
+                                <td><span class="mobile-label"><span class="th">รายได้ต่อปี</span><span class="en">Annual Revenue</span></span>1,000,001 - 5,000,000 <span class="th">บาท</span><span class="en">THB</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">ราคาประเมิน</span><span class="en">Est. Price</span></span>11,500 ฿</td>
+                            </tr>
+                            <tr class="interactive-element">
+                                <td><span class="mobile-label"><span class="th">รายได้ต่อปี</span><span class="en">Annual Revenue</span></span>5,000,001 - 10,000,000 <span class="th">บาท</span><span class="en">THB</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">ราคาประเมิน</span><span class="en">Est. Price</span></span>14,500 ฿</td>
+                            </tr>
+                            <tr class="interactive-element">
+                                <td><span class="mobile-label"><span class="th">รายได้ต่อปี</span><span class="en">Annual Revenue</span></span>10,000,001 - 20,000,000 <span class="th">บาท</span><span class="en">THB</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">ราคาประเมิน</span><span class="en">Est. Price</span></span>23,000 ฿</td>
+                            </tr>
+                            <tr class="interactive-element">
+                                <td><span class="mobile-label"><span class="th">รายได้ต่อปี</span><span class="en">Annual Revenue</span></span>20,000,001 - 50,000,000 <span class="th">บาท</span><span class="en">THB</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">ราคาประเมิน</span><span class="en">Est. Price</span></span>40,000 ฿</td>
+                            </tr>
+                            <tr class="interactive-element">
+                                <td><span class="mobile-label"><span class="th">รายได้ต่อปี</span><span class="en">Annual Revenue</span></span>50,000,001 - 100,000,000 <span class="th">บาท</span><span class="en">THB</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">ราคาประเมิน</span><span class="en">Est. Price</span></span>70,000 ฿</td>
+                            </tr>
+                            <tr class="interactive-element">
+                                <td><span class="mobile-label"><span class="th">รายได้ต่อปี</span><span class="en">Annual Revenue</span></span><span class="th">เกิน 100 ล้านบาท</span><span class="en">Over 100 Million THB</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">ราคาประเมิน</span><span class="en">Est. Price</span></span><span class="th">แล้วแต่ตกลง</span><span class="en">Negotiable</span></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -448,20 +513,20 @@
                         </thead>
                         <tbody>
                             <tr class="interactive-element">
-                                <td><span class="th">จดทะเบียนจัดตั้งห้างหุ้นส่วนฯ</span><span class="en">Partnership Registration</span></td>
-                                <td class="price-col">3,000 ฿</td>
+                                <td><span class="mobile-label"><span class="th">รายการ</span><span class="en">Service</span></span><span class="th">จดทะเบียนจัดตั้งห้างหุ้นส่วนฯ</span><span class="en">Partnership Registration</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">ค่าดำเนินการ</span><span class="en">Fee</span></span>3,000 ฿</td>
                             </tr>
                             <tr class="interactive-element">
-                                <td><span class="th">จดทะเบียนจัดตั้งบริษัทฯ</span><span class="en">Company Registration</span></td>
-                                <td class="price-col">5,000 ฿</td>
+                                <td><span class="mobile-label"><span class="th">รายการ</span><span class="en">Service</span></span><span class="th">จดทะเบียนจัดตั้งบริษัทฯ</span><span class="en">Company Registration</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">ค่าดำเนินการ</span><span class="en">Fee</span></span>5,000 ฿</td>
                             </tr>
                             <tr class="interactive-element">
-                                <td><span class="th">จดทะเบียนภาษีมูลค่าเพิ่ม</span><span class="en">VAT Registration</span></td>
-                                <td class="price-col">5,000 ฿</td>
+                                <td><span class="mobile-label"><span class="th">รายการ</span><span class="en">Service</span></span><span class="th">จดทะเบียนภาษีมูลค่าเพิ่ม</span><span class="en">VAT Registration</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">ค่าดำเนินการ</span><span class="en">Fee</span></span>5,000 ฿</td>
                             </tr>
                             <tr class="interactive-element">
-                                <td><span class="th">ขึ้นทะเบียนประกันสังคม</span><span class="en">Social Security Registration</span></td>
-                                <td class="price-col">4,500 ฿</td>
+                                <td><span class="mobile-label"><span class="th">รายการ</span><span class="en">Service</span></span><span class="th">ขึ้นทะเบียนประกันสังคม</span><span class="en">Social Security Registration</span></td>
+                                <td class="price-col"><span class="mobile-label"><span class="th">ค่าดำเนินการ</span><span class="en">Fee</span></span>4,500 ฿</td>
                             </tr>
                         </tbody>
                     </table>
@@ -490,11 +555,10 @@
             <div>
                 <h3 style="margin-bottom: 1.5rem; font-weight: 500;"><span class="th">ช่องทางการติดต่อ</span><span class="en">Contact Us</span></h3>
                 <ul class="contact-list">
-    <!-- เพิ่มคลาส icon-line, icon-fb, icon-mail เข้าไปที่แท็ก <i> -->
-    <li><a href="https://line.me/ti/p/~@132rhgdv" class="interactive-element" target="_blank"><i class="fa-brands fa-line icon-line"></i> LINE: @132rhgdv</a></li>
-    <li><a href="#" class="interactive-element" target="_blank"><i class="fa-brands fa-facebook-f icon-fb"></i> Facebook: dearmygenius.</a></li>
-    <li><a href="mailto:contract@dearmygenius.com" class="interactive-element"><i class="fa-solid fa-envelope icon-mail"></i> contract@dearmygenius.com</a></li>
-</ul>
+                    <li><a href="https://line.me/ti/p/~@132rhgdv" class="interactive-element" target="_blank"><i class="fa-brands fa-line icon-line"></i> LINE: @132rhgdv</a></li>
+                    <li><a href="#" class="interactive-element" target="_blank"><i class="fa-brands fa-facebook-f icon-fb"></i> Facebook: dearmygenius.</a></li>
+                    <li><a href="mailto:contract@dearmygenius.com" class="interactive-element"><i class="fa-solid fa-envelope icon-mail"></i> contract@dearmygenius.com</a></li>
+                </ul>
             </div>
         </div>
         <div class="copyright">&copy; 2026 dearmygenius. All rights reserved.</div>
